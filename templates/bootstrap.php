@@ -5,11 +5,11 @@
     <title>doxmate Documentation</title>
     <meta name="keywords" content="documentation,dox" />
     <meta name="description" content="Generate your documentation." />
-    <script src="assets/prettify.js"></script>
-    <script src="assets/jquery-1.8.2.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.js"></script>
-    <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="assets/base.css" />
+    <script src="/assets/prettify.js"></script>
+    <script src="/assets/jquery-1.8.2.min.js"></script>
+    <script src="/assets/bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" type="text/css" href="/assets/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/base.css" />
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-static-top top-navbar" role="navigation">
@@ -62,6 +62,7 @@
         </div>
         <div class="col-md-9">
             <!--文档中文内容-->
+            <?= $content ?>
         </div>
     </div>
 </div>
