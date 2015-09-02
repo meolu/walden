@@ -2,11 +2,9 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <title><?= $title ?> - 编辑 - <?= Bootstrap::DOC_NAME ?></title>
     <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/editor.css">
-    <style>
-    </style>
 </head>
 <body>
 

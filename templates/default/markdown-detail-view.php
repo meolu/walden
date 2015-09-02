@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="utf-8" />
-    <title>docx Documentation</title>
+    <title><?= $title ?> - <?= Bootstrap::DOC_NAME ?></title>
     <meta name="keywords" content="documentation,dox" />
     <meta name="description" content="Generate your documentation." />
     <script src="/static/prettify.js"></script>
