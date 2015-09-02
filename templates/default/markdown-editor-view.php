@@ -34,15 +34,7 @@
 <script src="/static/bootstrap/js/bootstrap.js"></script>
 <script src="/static/jquery.uploadify.js" type="text/javascript"></script>
 <script>
-    var sprintf = function() {
-        var arg = arguments,
-            str = arg[0] || '',
-            i, n;
-        for (i = 1, n = arg.length; i < n; i++) {
-            str = str.replace(/%s/, arg[i]);
-        }
-        return str;
-    }
+
     function initPicUpload() {
         $('#file_upload').uploadify({
             'formData'     : {

@@ -9,4 +9,5 @@
 return [
     'template' => 'default',
     'validationKey' => 'PdXWDAfV5-gPJJWRar5sEN71DN0JcDRV'
+    'git' => ''
 ];

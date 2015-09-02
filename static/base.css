@@ -471,3 +471,14 @@ ol.linenums li {
 .table p {
   margin: 0;
 }
+ul.bs-docs-left-nav > li > a {
+    display: block;
+    margin: 0 0 -1px;
+    padding: 8px 14px;
+    margin-left: -15px;
+    border-right: 1px solid #e5e5e5;
+}
+ul.bs-docs-left-nav > li {
+    list-style: circle;
+    width: 100%;
+}

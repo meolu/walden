@@ -12,6 +12,11 @@ require_once 'DirectoryIndex.php';
 
 class Bootstrap {
     /**
+     * 项目名字
+     * 为了作者的付出，请保留
+     */
+    const DOC_NAME = 'Docx';
+    /**
      * markdown 文档根目录
      */
     const MARKDOWN_ROOT = 'markdown';
@@ -86,8 +91,19 @@ class Bootstrap {
         // 上传附件
         elseif ($route === static::getSafeFile(self::UPLOAD_URL)) {
             $this->actionUploadAttached();
+        } else {
+            echo $file;
         }
     }
+
+    /**
+     * 判断是否为AJAX (XMLHttpRequest)请求
+     * @return bool
+     */
+    public static function getIsAjax() {
+        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest';
+    }
+
     /**
      * 页面重定向
      *
@@ -191,6 +207,8 @@ class Bootstrap {
         if ($mdFile && file_exists($mdFile) && is_file($mdFile)) {
             // 目录索引
             $index = DirectoryIndex::listDirectory(static::MARKDOWN_ROOT . '/docx', DirectoryIndex::MODE_READ);
+            // 标题
+            $title = DirectoryIndex::trimFileExtension(basename($file));
             // 文档预览
             $content = file_get_contents($mdFile);
             $parser = new Parsedown();
@@ -198,6 +216,7 @@ class Bootstrap {
             $this->render(static::VIEW_DETAIL, [
                 'index'   => $index,
                 'editUrl' => DirectoryIndex::file2Url($mdFile, DirectoryIndex::MODE_WRITE),
+                'title'   => $title,
                 'content' => $dom,
             ]);
         }
@@ -212,7 +231,7 @@ class Bootstrap {
         $title = DirectoryIndex::trimFileExtension(basename($file));
         if (!is_file($file)) {
             $cmd[]   = sprintf("mkdir -p %s", dirname($file));
-            $cmd[]   = sprintf("echo '# %s%s' > %s", $title, PHP_EOL, $file);
+            $cmd[]   = sprintf("echo '# %s%s-------------' > %s", $title, PHP_EOL, $file);
             $command = join(" && ", $cmd);
             $ret = Command::execute($command);
         }
@@ -228,24 +247,35 @@ class Bootstrap {
             'timestamp' => $time,
             'token'     => md5($this->_config['validationKey'] . $time),
             'returnUrl' => DirectoryIndex::file2Url($file),
+            'title'     => $title,
             'content'   => $content,
         ]);
     }
+
     /**
      * 目录已存在，列出文件。/docx/usage
      * @param $route
      * @throws Exception
      */
     public function actionListDir($route) {
+        $title = DirectoryIndex::trimFileExtension(basename($file));
         // 当前目录索引
         $currentIndex = DirectoryIndex::listDirectory($route, DirectoryIndex::MODE_READ);
+        // 如果是ajax请求，则以json返回
+        if (static::getIsAjax()) {
+            $this->renderJson($currentIndex);
+            return;
+        }
         // 顶层目录索引
         $TopIndex = DirectoryIndex::listDirectory(static::MARKDOWN_ROOT . '/docx', DirectoryIndex::MODE_READ);
-        $this->render(static::VIEW_LIST, [
+        $this->render(static::VIEW_DETAIL, [
             'index'   => $TopIndex,
             'currentIndex' => $currentIndex,
+            'title'     => $title,
+            'content' => '',
         ]);
     }
+
     /**
      * 上传附件
      */

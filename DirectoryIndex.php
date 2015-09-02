@@ -41,9 +41,10 @@ class DirectoryIndex extends DirectoryIterator {
             $file  = sprintf('%s/%s', rtrim($dir, '/'), $fileInfo->__toString());
             $url   = static::file2Url($file, $mode);
             $title = basename($url);
-            $list[$url] = [
+            $list[] = [
                 'type'  => $fileInfo->isFile() ? self::TYPE_FILE : self::TYPE_DIR,
                 'title' => $fileInfo->isFile() ? static::trimFileExtension($title) : $title,
+                'link'  => $url,
             ];
         }
         return $list;

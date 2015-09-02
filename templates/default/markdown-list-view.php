@@ -51,9 +51,9 @@
         <div class="col-md-3">
             <ul class="nav nav-list bs-docs-sidenav affix">
                 <!--文档的目录 start-->
-                <?php foreach ($index as $link => $item) { ?>
+                <?php foreach ($index as $item) { ?>
                     <li class="level_1">
-                        <a href="<?= $link ?>" title="">
+                        <a href="<?= $item['link'] ?>" title="">
                             <?= $item['title'] ?>
                             <i class="icon-chevron-right"></i>
                         </a>
@@ -66,9 +66,9 @@
         <div class="col-md-9">
             <!--文档中文内容 start-->
             <ul class="nav nav-list">
-            <?php foreach ($currentIndex as $link => $item) { ?>
+            <?php foreach ($currentIndex as $item) { ?>
                 <li class="level_1">
-                    <a href="<?= $link ?>" title="">
+                    <a href="<?= $item['link'] ?>" title="">
                         <?= $item['title'] ?>
                         <i class="icon-chevron-right"></i>
                     </a>
