@@ -16,6 +16,6 @@ function d($var) {
     var_dump($var);
 }
 
-$config = include('config.php');
+$config = include('Config.php');
 $bootstrap = new Bootstrap();
 $bootstrap->setConfig($config)->run();

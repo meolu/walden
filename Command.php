@@ -27,8 +27,27 @@ class Command {
         return !$return;
     }
 
-    public static function gitPush() {
+    public static function gitPush($markdown) {
+        // 存在git目录，直接push
+        if (!file_exists($markdown)) return false;
+        $cmd[] = sprintf('cd %s ', $markdown);
+        $cmd[] = sprintf('/usr/bin/env git add .');
+        $cmd[] = sprintf('/usr/bin/env git commit -m"%s"', date("Y-m-d H:i:s", time()));
+        $cmd[] = sprintf('/usr/bin/env git push origin master');
+        $command = join(' && ', $cmd);
+        $log = '';
+        return static::execute($command, $log);
+    }
 
+    public function initGit($gitRepo, $webroot, $markdown) {
+        $gitDir = sprintf("%s/%s", rtrim($webroot, '/'), $markdown);
+        if (file_exists($gitDir) && file_exists(rtrim($gitDir, '/') . '/.git')) return true;
+
+        $cmd[] = sprintf('cd %s ', $webroot);
+        $cmd[] = sprintf('/usr/bin/env git clone %s %s', $gitRepo, $markdown);
+        $command = join(' && ', $cmd);
+        $log = '';
+        return static::execute($command, $log);
     }
 
 

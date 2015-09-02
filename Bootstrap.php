@@ -76,8 +76,12 @@ class Bootstrap {
     public function run() {
         $route = static::getSafeFile(urldecode($_SERVER['REQUEST_URI']));
         $file  = static::MARKDOWN_ROOT . '/' . $route;
+        // 先创建markdown作为文档仓库，可以保存至git
+        if (!file_exists(static::MARKDOWN_ROOT)) {
+            $this->actionInit();
+        }
         // html渲染
-        if ($file && static::isHtmlFile($file)) {
+        elseif ($file && static::isHtmlFile($file)) {
             $this->actionReadHtml($file);
         }
         // 编辑md文件(md文件不存在则先创建) /docx/usage/start.md
@@ -127,6 +131,7 @@ class Bootstrap {
         include($tpl);
         ob_flush();
     }
+
     /**
      * 输出json
      *
@@ -144,6 +149,7 @@ class Bootstrap {
         echo json_encode($ret, 0);
         die;
     }
+
     /**
      * 文档路径过滤
      *
@@ -160,6 +166,7 @@ class Bootstrap {
         }
         return $file;
     }
+
     /**
      * markdown文件路径转化为html文件路径 
      * 
@@ -171,10 +178,12 @@ class Bootstrap {
         if (!static::isMarkDownFile($file)) return false;
         return substr($file, 0, strlen($file) - strlen(static::TYPE_MD)) . static::TYPE_HTML;
     }
+
     public static function html2MdFile($file) {
         if (!static::isHtmlFile($file)) return false;
         return substr($file, 0, strlen($file) - strlen(static::TYPE_HTML)) . static::TYPE_MD;
     }
+
     /**
      * 判断是否为html文件
      *
@@ -195,8 +204,16 @@ class Bootstrap {
     public static function isMarkDownFile($file) {
         return substr($file, 0 - strlen(static::TYPE_MD)) === static::TYPE_MD;
     }
+
+    public static function getProject($route) {
+        $pattern = sprintf('#%s/.*?/#', static::MARKDOWN_ROOT);
+        preg_match($pattern, static::getSafeFile($route), $match);
+        return $match ? current($match) : static::MARKDOWN_ROOT;
+    }
+
     public function exceptionHandle() {
     }
+
     /**
      * html渲染
      * @param $file
@@ -206,7 +223,7 @@ class Bootstrap {
         $mdFile = static::html2MdFile($file);
         if ($mdFile && file_exists($mdFile) && is_file($mdFile)) {
             // 目录索引
-            $index = DirectoryIndex::listDirectory(static::MARKDOWN_ROOT . '/docx', DirectoryIndex::MODE_READ);
+            $index = DirectoryIndex::listDirectory(static::getProject($file), DirectoryIndex::MODE_READ);
             // 标题
             $title = DirectoryIndex::trimFileExtension(basename($file));
             // 文档预览
@@ -240,6 +257,8 @@ class Bootstrap {
             $content = $_POST['content'];
             $ret = file_put_contents($file, $content);
             $htmlFile = static::md2HtmlFile($route);
+            $markdown = sprintf("%s/%s", rtrim(dirname(__FILE__), '/'), static::MARKDOWN_ROOT);
+            Command::gitPush($markdown);
             $this->redirect('/' . $htmlFile);
         }
         $time = time();
@@ -258,7 +277,7 @@ class Bootstrap {
      * @throws Exception
      */
     public function actionListDir($route) {
-        $title = DirectoryIndex::trimFileExtension(basename($file));
+        $title = DirectoryIndex::trimFileExtension(basename($route));
         // 当前目录索引
         $currentIndex = DirectoryIndex::listDirectory($route, DirectoryIndex::MODE_READ);
         // 如果是ajax请求，则以json返回
@@ -267,7 +286,7 @@ class Bootstrap {
             return;
         }
         // 顶层目录索引
-        $TopIndex = DirectoryIndex::listDirectory(static::MARKDOWN_ROOT . '/docx', DirectoryIndex::MODE_READ);
+        $TopIndex = DirectoryIndex::listDirectory(static::getProject($route), DirectoryIndex::MODE_READ);
         $this->render(static::VIEW_DETAIL, [
             'index'   => $TopIndex,
             'currentIndex' => $currentIndex,
@@ -300,5 +319,10 @@ class Bootstrap {
                 echo '附件格式只支持：' . join(', ', $fileTypes);
             }
         }
+    }
+
+    public function actionInit() {
+        $git = new Command();
+        $ret = $git->initGit($this->_config['git'], dirname(__FILE__), static::MARKDOWN_ROOT);
     }
 }

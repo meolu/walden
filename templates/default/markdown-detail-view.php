@@ -36,7 +36,7 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="<?= $editUrl?>">编辑</a></li>
+                <?php if (isset($editUrl)) { ?><li><a href="<?= $editUrl?>">编辑</a></li><?php } ?>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div>
@@ -64,7 +64,7 @@
                 <?php foreach ($index as $item) { ?>
                     <?php if ($item['type'] == DirectoryIndex::TYPE_FILE) { ?>
                         <li class="level_1">
-                        <a href="<?= $link ?>"><?= $item['title'] ?><i class="icon-chevron-right"></i></a>
+                        <a href="<?= $item['link'] ?>"><?= $item['title'] ?><i class="icon-chevron-right"></i></a>
                         </li>
                     <?php } else { ?>
                         <li class="level_1">

@@ -8,6 +8,6 @@
  * *****************************************************************/
 return [
     'template' => 'default',
-    'validationKey' => 'PdXWDAfV5-gPJJWRar5sEN71DN0JcDRV'
-    'git' => ''
+    'validationKey' => 'PdXWDAfV5-gPJJWRar5sEN71DN0JcDRV',
+    'git' => 'git@github.com:meolu/docx-markdown-demo.git',
 ];
