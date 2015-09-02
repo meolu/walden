@@ -7,6 +7,6 @@
  * @Description:
  * *****************************************************************/
 return [
-    'markdown_root' => '/Users/wushuiyong/workspace/git/docx/markdown/',
-
+    'template' => 'default',
+    'validationKey' => 'PdXWDAfV5-gPJJWRar5sEN71DN0JcDRV'
 ];
