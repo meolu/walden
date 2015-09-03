@@ -38,15 +38,9 @@
 </nav>
 <header class="jumbotron subhead">
     <div class="container">
-        <h1><?= Bootstrap::DOC_NAME ?> <small>Demo @吴水永</small></h1>
+        <h1><?= Bootstrap::DOC_NAME ?> <small>瓦尔登 文档工具</small></h1>
     </div>
 </header>
-
-
-
-
-
-
 
 <div class="container content">
     <div class="row">
