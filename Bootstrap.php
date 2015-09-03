@@ -56,6 +56,21 @@ class Bootstrap {
 
     private $_config;
 
+    /**
+     * 图片后缀
+     */
+    public $imageExtensions = [
+        'jpg', 'jpeg', 'gif', 'png',
+    ];
+
+    /**
+     * 附件后缀
+     */
+    public $attachedExtensions = [
+        'zip', 'tar.gz', 'tgz', 'rar'
+
+    ];
+
     public function __construct() {
     }
 
@@ -205,8 +220,8 @@ class Bootstrap {
         return substr($file, 0 - strlen(static::TYPE_MD)) === static::TYPE_MD;
     }
 
-    public static function getProject($route) {
-        $pattern = sprintf('#%s/.*?/#', static::MARKDOWN_ROOT);
+    public static function getProjectByRoute($route) {
+        $pattern = sprintf('#(%s/[^/]+)#', static::MARKDOWN_ROOT);
         preg_match($pattern, static::getSafeFile($route), $match);
         return $match ? current($match) : static::MARKDOWN_ROOT;
     }
@@ -223,7 +238,7 @@ class Bootstrap {
         $mdFile = static::html2MdFile($file);
         if ($mdFile && file_exists($mdFile) && is_file($mdFile)) {
             // 目录索引
-            $index = DirectoryIndex::listDirectory(static::getProject($file), DirectoryIndex::MODE_READ);
+            $index = DirectoryIndex::listDirectory(static::getProjectByRoute($mdFile), DirectoryIndex::MODE_READ);
             // 标题
             $title = DirectoryIndex::trimFileExtension(basename($file));
             // 文档预览
@@ -286,7 +301,7 @@ class Bootstrap {
             return;
         }
         // 顶层目录索引
-        $TopIndex = DirectoryIndex::listDirectory(static::getProject($route), DirectoryIndex::MODE_READ);
+        $TopIndex = DirectoryIndex::listDirectory(static::getProjectByRoute($route), DirectoryIndex::MODE_READ);
         $this->render(static::VIEW_DETAIL, [
             'index'   => $TopIndex,
             'currentIndex' => $currentIndex,
@@ -303,20 +318,20 @@ class Bootstrap {
         $verifyToken = md5($this->_config['validationKey'] . $_POST['timestamp']);
         if (!empty($_FILES) && $_POST['token'] == $verifyToken) {
             // Validate the file extensions
-            $fileTypes = [
-                'jpg', 'jpeg', 'gif', 'png', // 图片
-                'zip', 'tar.gz', 'tgz', 'rar' // 附件
-            ];
+            $fileTypes = array_merge($this->imageExtensions, $this->attachedExtensions);
             $fileParts = pathinfo($_FILES['Filedata']['name']);
             if (in_array(strtolower($fileParts['extension']), $fileTypes)) {
                 $tempFile   = $_FILES['Filedata']['tmp_name'];
                 $newFile    = sprintf("%s-%d.%s", date("YmdHis", time()), rand(10, 99), $fileParts['extension']);
                 $targetFile = rtrim(self::UPLOAD_ROOT, '/') . '/' . $newFile;
-                $previewUrl = DirectoryIndex::file2Url($targetFile);
                 $ret = move_uploaded_file($tempFile, $targetFile);
-                echo $ret ? $previewUrl : '上传附件失败';
+
+                $md = in_array(strtolower($fileParts['extension']), $this->imageExtensions)
+                    ? sprintf("![%s](/%s)", $_FILES['Filedata']['name'], trim($targetFile, '/'))
+                    : sprintf("[%s](/%s)", $_FILES['Filedata']['name'], trim($targetFile, '/'));
+                echo $ret ? $md : '上传附件失败';
             } else {
-                echo '附件格式只支持：' . join(', ', $fileTypes);
+                echo '上传附件失败，附件格式只支持：' . join(', ', $fileTypes);
             }
         }
     }

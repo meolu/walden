@@ -29,11 +29,9 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="/docx">Docx</a></li>
-
-                <li>
-                    <a href="/api">Api</a>
-                </li>
+                <?php foreach (DirectoryIndex::getProjects() as $project) { ?>
+                <li><a href="<?= $project['link'] ?>"><?= $project['title'] ?></a></li>
+                <?php } ?>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <?php if (isset($editUrl)) { ?><li><a href="<?= $editUrl?>">编辑</a></li><?php } ?>
@@ -43,7 +41,7 @@
 </nav>
 <header class="jumbotron subhead">
     <div class="container">
-        <h1><?= Bootstrap::DOC_NAME ?> <small>Version: 0.0.1 By @walle</small></h1>
+        <h1><?= Bootstrap::DOC_NAME ?> <small>Version: 0.0.1 By @吴水永</small></h1>
         <p class="lead">
             Generate your documentation.
         </p>
@@ -79,7 +77,7 @@
                                class="<?= $item['type'] == DirectoryIndex::TYPE_DIR ? 'list-dir' : ''?> "
                             >
                                 <?= $item['title'] ?>
-                                <i class="icon-chevron-right"></i>
+                                <i class="icon-chevron-right glyphicon glyphicon-folder-open"></i>
                             </a>
                             <ul id="<?= $item['title'] ?>" class="bs-docs-left-nav panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne"></ul>
                         </li>
@@ -149,7 +147,7 @@
                         list += sprintf('<li class="level_1">' +
                             '<a href="#%s" role="button" data-dir="%s" data-collapse="%s" data-toggle="collapse" ' +
                             'data-parent="#accordion" aria-expanded="true" aria-controls="collapseOne" class="list-dir"' +
-                            '>%s<i class="icon-chevron-right"></i></a>' +
+                            '>%s<i class="icon-chevron-right glyphicon glyphicon-folder-open"></i></a>' +
                             '%s' +
                             '</li>',
                             data.title, data.link, data.title, data.title, dir)

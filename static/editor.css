@@ -26,16 +26,18 @@ textarea {
     word-wrap: break-word;
     box-sizing: border-box;
 }
-.save, .return, .uploadify {
+.save, .uploadify {
     position: absolute;
     right: 30px;
     top: 30px;
 }
-.save {
-    right: 90px;
+.return {
+    position: absolute;
+    top: 30px;
+    left: 30px;
 }
 .uploadify, .uploadify-queue {
-    right: 200px;
+    right: 150px;
 }
 
 .uploadify-button {
@@ -88,7 +90,8 @@ textarea {
 }
 
 .uploadify-queue {
-    top: 60px;
+    position: absolute;
+    top: 100px;
 }
 
 .uploadify-queue-item {

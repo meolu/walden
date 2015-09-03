@@ -25,8 +25,13 @@
         <textarea  id="textarea" name="content"><?= $content ?></textarea>
         <div id="queue"></div>
         <input id="file_upload" class="upload" name="file_upload" type="file" multiple="true">
-        <input type="submit" class="btn btn-default save" value="保存">
-        <a href="<?= $returnUrl ?>" class="btn btn-default return" value="">返回</a>
+        <button type="submit" class="btn btn-default save" aria-label="Left Align" value="保存">
+            <span class="glyphicon glyphicon-align-left glyphicon-floppy-saved" aria-hidden="true"></span>
+            保存
+        </button>
+        <a href="<?= $returnUrl ?>" class="btn btn-default return" value="">
+            <i class="glyphicon  glyphicon-arrow-left"></i>返回
+        </a>
     </form>
 </div>
 
@@ -41,6 +46,7 @@
                 'timestamp' : '<?= $timestamp; ?>',
                 'token'     : '<?= $token ?>'
             },
+            'buttonText' : '插入图片 / 附件',
             'swf'      : '/static/uploadify.swf',
             'uploader' : '<?= Bootstrap::UPLOAD_URL ?>',
             'onSelect': function(file) {
@@ -54,9 +60,8 @@
 
             'onUploadSuccess' : function(file, url, response) {
                 console.log(file.name + response + ':' + url);
-                var append = sprintf("![%s](%s)", file.name, url);
                 var editor = $("#textarea");
-                editor.val(editor.val() + "\n" + append);
+                editor.val(editor.val() + "\n" + url);
             }
         });
     }

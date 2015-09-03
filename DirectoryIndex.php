@@ -27,6 +27,8 @@ class DirectoryIndex extends DirectoryIterator {
 
     public static $MARKDOWN_ROOT;
 
+    public static $EXCLUDES = ['.git', 'upload',];
+
     public function __construct($path) {
         parent::__construct($path);
     }
@@ -37,11 +39,11 @@ class DirectoryIndex extends DirectoryIterator {
 
         $self = new static($dir);
         foreach ($self as $fileInfo) {
-            if ($fileInfo->isDot()) continue;
+            if ($fileInfo->isDot() || in_array($fileInfo->__toString(), static::$EXCLUDES)) continue;
             $file  = sprintf('%s/%s', rtrim($dir, '/'), $fileInfo->__toString());
             $url   = static::file2Url($file, $mode);
             $title = basename($url);
-            $list[] = [
+            $list[$title] = [
                 'type'  => $fileInfo->isFile() ? self::TYPE_FILE : self::TYPE_DIR,
                 'title' => $fileInfo->isFile() ? static::trimFileExtension($title) : $title,
                 'link'  => $url,
@@ -49,6 +51,17 @@ class DirectoryIndex extends DirectoryIterator {
         }
         return $list;
     }
+
+    public static function getProjects() {
+        $projects = static::listDirectory(Bootstrap::MARKDOWN_ROOT);
+        foreach ($projects as $key => &$project) {
+            if ($project['type'] == DirectoryIndex::TYPE_FILE) {
+                unset($projects[$key]);
+            }
+        }
+        return $projects;
+    }
+
 
     public static function file2Url($file, $mode = self::MODE_READ) {
         $file = Bootstrap::getSafeFile($file);
