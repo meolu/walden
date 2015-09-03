@@ -173,6 +173,12 @@
             getDir($(this), e)
 
         })
+        console.log('<?= urldecode($_GET['action']) ?>')
+        <?php if (isset($_GET['action']) && urldecode($_GET['action']) == Bootstrap::PUSH_GIT_URL) { ?>
+        $.get('<?= Bootstrap::PUSH_GIT_URL ?>', function (o) {
+            console.log(o);
+        })
+        <?php } ?>
     });
 </script>
 </body>

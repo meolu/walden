@@ -20,7 +20,6 @@ class Command {
         $log = [];
         exec($command . ' 2>&1', $log, $return);
         $log = implode(PHP_EOL, $log);
-
         self::log($log);
         self::log('---------------------------------');
 

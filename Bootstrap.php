@@ -53,6 +53,10 @@ class Bootstrap {
      * 上传附件接口
      */
     const UPLOAD_URL = '/attachment';
+    /**
+     * 推送git接口
+     */
+    const PUSH_GIT_URL = '/git/push';
 
     private $_config;
 
@@ -110,6 +114,10 @@ class Bootstrap {
         // 上传附件
         elseif ($route === static::getSafeFile(self::UPLOAD_URL)) {
             $this->actionUploadAttached();
+        }
+        // 推送git
+        elseif ($route === static::getSafeFile(self::PUSH_GIT_URL)) {
+            $this->actionPushGit();
         } else {
             echo $file;
         }
@@ -173,6 +181,10 @@ class Bootstrap {
      */
     public static function getSafeFile($file) {
         $origin = $file;
+        $pos = strpos($file, '?');
+        if ($pos !== false) {
+            $file = substr($file, 0, $pos);
+        }
         $file = ltrim($file, '/');
         $file = ltrim($file, '.');
         while ($file != $origin) {
@@ -194,6 +206,13 @@ class Bootstrap {
         return substr($file, 0, strlen($file) - strlen(static::TYPE_MD)) . static::TYPE_HTML;
     }
 
+    /**
+     * markdownhtml文件路径转化为markdown文件路径
+     *
+     * @example /docx/read.html => /docx/readme.md
+     * @param $file
+     * @return bool|string
+     */
     public static function html2MdFile($file) {
         if (!static::isHtmlFile($file)) return false;
         return substr($file, 0, strlen($file) - strlen(static::TYPE_HTML)) . static::TYPE_MD;
@@ -253,6 +272,8 @@ class Bootstrap {
             ]);
         }
     }
+
+
     /**
      * 编辑md文件 /docx/usage/start.md
      * @param $file
@@ -272,9 +293,8 @@ class Bootstrap {
             $content = $_POST['content'];
             $ret = file_put_contents($file, $content);
             $htmlFile = static::md2HtmlFile($route);
-            $markdown = sprintf("%s/%s", rtrim(dirname(__FILE__), '/'), static::MARKDOWN_ROOT);
-            Command::gitPush($markdown);
-            $this->redirect('/' . $htmlFile);
+            $url = sprintf("/%s?action=%s", $htmlFile, static::PUSH_GIT_URL);
+            $this->redirect($url);
         }
         $time = time();
         $this->render(static::VIEW_EDITOR, [
@@ -336,8 +356,20 @@ class Bootstrap {
         }
     }
 
+    /**
+     * 初始化docx
+     */
     public function actionInit() {
         $git = new Command();
         $ret = $git->initGit($this->_config['git'], dirname(__FILE__), static::MARKDOWN_ROOT);
+    }
+
+    /**
+     * 推送git
+     */
+    public function actionPushGit() {
+        $markdown = sprintf("%s/%s", rtrim(dirname(__FILE__), '/'), static::MARKDOWN_ROOT);
+        $ret = Command::gitPush($markdown);
+        echo $ret ? '推送成功：）' : '推送失败：（';
     }
 }
