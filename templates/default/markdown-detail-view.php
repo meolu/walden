@@ -41,10 +41,7 @@
 </nav>
 <header class="jumbotron subhead">
     <div class="container">
-        <h1><?= Bootstrap::DOC_NAME ?> <small>Version: 0.0.1 By @吴水永</small></h1>
-        <p class="lead">
-            Generate your documentation.
-        </p>
+        <h1><?= Bootstrap::DOC_NAME ?> <small>Demo @吴水永</small></h1>
     </div>
 </header>
 

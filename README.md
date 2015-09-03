@@ -1,6 +1,6 @@
 # Docx 最适合东半球同学使用的文档框架
 
-或许这是人性化的一个文档管理框架，让你一下子就喜欢上写文档分享。
+或许是极人性化的一个文档管理框架，让你一下子就喜欢上写文档分享。
 
 ## 特点
 
@@ -88,4 +88,12 @@ server {
 ```
 修改nginx.conf的http模块：client_max_body_size 10m;
 ```
+
+## 截图
+
+![前端预览](https://raw.github.com/meolu/docx/master/static/screenshots/preview.png)
+
+![markdown编辑后台](https://raw.github.com/meolu/docx/master/static/screenshots/editor.png)
+
+
 
