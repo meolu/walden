@@ -6,7 +6,8 @@
  * @File Name: index.php
  * @Description:
  * *****************************************************************/
-
+// 设置UTF8，支持中文
+setlocale(LC_ALL, 'en_US.UTF8');
 require_once 'Bootstrap.php';
 
 function dd($var) {
