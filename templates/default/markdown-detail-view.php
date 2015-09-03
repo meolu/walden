@@ -10,9 +10,6 @@
     <script src="/static/bootstrap/js/bootstrap.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/base.css" />
-    <style>
-
-    </style>
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-static-top top-navbar" role="navigation">
@@ -24,7 +21,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="./index.html">docx</a>
+            <a class="navbar-brand" href="/"><?= Bootstrap::DOC_NAME ?></a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -96,11 +93,10 @@
         <p class="pull-right">
             <a href="#">Back to top</a>
         </p>
-        <p>此文档通过docx生成。主题借鉴Bootstrap API文档风格。欢迎关注docx作者<a href="http://github.com/meolu" target="_blank">@吴水永</a></p>
         <ul class="footer-links">
-            <li><a href="http://docx.huamanshu.com" target="_blank">docx主页</a></li>
-            <li><a href="https://github.com/meolu/docx" target="_blank">docx源码</a></li>
-            <li><a href="https://github.com/meolu/docx/issues?state=open" target="_blank">提交bug</a></li>
+            <li><a href="http://walden.huamanshu.com" target="_blank">walden主页</a></li>
+            <li><a href="https://github.com/meolu/walden" target="_blank">walden源码</a></li>
+            <li><a href="https://github.com/meolu/walden/issues?state=open" target="_blank">提交bug</a></li>
         </ul>
     </div>
 </footer>
@@ -170,7 +166,6 @@
             getDir($(this), e)
 
         })
-        console.log('<?= urldecode($_GET['action']) ?>')
         <?php if (isset($_GET['action']) && urldecode($_GET['action']) == Bootstrap::PUSH_GIT_URL) { ?>
         $.get('<?= Bootstrap::PUSH_GIT_URL ?>', function (o) {
             console.log(o);

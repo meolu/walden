@@ -11,11 +11,12 @@ require_once 'Parsedown.php';
 require_once 'DirectoryIndex.php';
 
 class Bootstrap {
+
     /**
      * 项目名字
      * 为了作者的付出，请保留
      */
-    const DOC_NAME = 'Docx';
+    const DOC_NAME = 'Walden';
     /**
      * markdown 文档根目录
      */
