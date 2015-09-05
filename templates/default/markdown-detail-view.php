@@ -161,6 +161,7 @@
 
         })
         <?php if (isset($_GET['action']) && urldecode($_GET['action']) == Bootstrap::PUSH_GIT_URL) { ?>
+        // 是否为编辑后的第一次文档预览，需要推送到git
         $.get('<?= Bootstrap::PUSH_GIT_URL ?>', function (o) {
             console.log(o);
         })

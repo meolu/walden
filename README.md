@@ -14,7 +14,7 @@
 
 ## 安装
 
-零安装、零配置，不需要composer，开箱即用。
+零安装、零配置，无数据库，不需要composer，开箱即用。
 
 * 依赖git，php，nginx环境
 * 检出docx到DOCX_WORKSPACE，注意该目录可写markdown目录
@@ -23,8 +23,15 @@
 ## 快速开始
 
 ### 初始化
-
-配置根目录的Config.php的`git`地址，要求是*ssh格式*，并且php进程的用户的id_rsa.pub已添加到git的ssh-key。这样才可以推送markdown下的文件。然后初始化markdown目录：`http://your-domain/`
+```
+Config.php
+<?php
+return [
+    // 保存文档和附件的git ssh地址，可以是在github，好吧，不想公开，可以bitbucket
+    'git' => 'git@github.com:meolu/docx-markdown-demo.git',
+];
+```
+php进程的用户的id_rsa.pub已添加到git的ssh-key。这样才可以推送markdown下的文件。然后初始化markdown目录：`http://your-domain/`
 
 ### 创建项目
 
