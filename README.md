@@ -1,4 +1,4 @@
-# Docx 最适合东半球同学使用的文档框架
+# Walden 最适合东半球同学使用的文档框架
 
 或许是极人性化的一个文档管理框架，让你一下子就喜欢上写文档分享，先体验下[demo](http://walden.huamanshu.com/)吧。
 
@@ -17,8 +17,8 @@
 零安装、零配置，无数据库，不需要composer，开箱即用。
 
 * 依赖git，php，nginx环境
-* 检出docx到DOCX_WORKSPACE，注意该目录可写markdown目录
-* 配置nginx指向DOCX_WORKSPACE
+* 检出Walden到Walden_WORKSPACE，注意该目录可写markdown目录
+* 配置nginx指向Walden_WORKSPACE
 
 ## 二、快速开始
 
@@ -28,7 +28,7 @@ Config.php
 <?php
 return [
     // 保存文档和附件的git ssh地址，可以是在github，好吧，不想公开，可以bitbucket
-    'git' => 'git@github.com:meolu/docx-markdown-demo.git',
+    'git' => 'git@github.com:meolu/Walden-markdown-demo.git',
 ];
 ```
 php进程的用户的id_rsa.pub已添加到git的ssh-key。这样才可以推送markdown下的文件。然后初始化markdown目录：`http://your-domain/`
@@ -71,8 +71,8 @@ php进程的用户的id_rsa.pub已添加到git的ssh-key。这样才可以推送
 ```
 server {
     listen       80;
-    server_name  docx.dev;
-    root /the/dir/of/docx;
+    server_name  Walden.dev;
+    root /the/dir/of/Walden;
     index index.php;
 
     location / {
@@ -97,10 +97,10 @@ server {
 ## 五、截图
 
 #### 前端预览
-![前端预览](https://raw.github.com/meolu/docx/master/static/screenshots/preview.png)
+![前端预览](https://raw.github.com/meolu/Walden/master/static/screenshots/preview.png)
 
 #### markdown编辑后台
-![markdown编辑后台](https://raw.github.com/meolu/docx/master/static/screenshots/editor.png)
+![markdown编辑后台](https://raw.github.com/meolu/Walden/master/static/screenshots/editor.png)
 
 
 
