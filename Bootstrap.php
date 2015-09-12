@@ -95,7 +95,7 @@ class Bootstrap {
      */
     public function run() {
         $route = static::getSafeFile(urldecode($_SERVER['REQUEST_URI']));
-        $file  = static::MARKDOWN_ROOT . '/' . $route;
+        $file  = static::route2file($route);
         // 先创建markdown作为文档仓库，可以保存至git
         if (!file_exists(static::MARKDOWN_ROOT)) {
             $this->actionInit();
@@ -110,7 +110,7 @@ class Bootstrap {
         }
         // 目录已存在，列出文件。/docx/usage
         elseif ($file && file_exists($file) && is_dir($file)) {
-            $this->actionListDir($file);
+            $this->actionListDir($file, isset($_GET['recourse']));
         }
         // 上传附件
         elseif ($route === static::getSafeFile(self::UPLOAD_URL)) {
@@ -193,6 +193,10 @@ class Bootstrap {
             $file = static::getSafeFile($file);
         }
         return $file;
+    }
+
+    public static function route2file($route) {
+        return sprintf('%s/%s', trim(static::MARKDOWN_ROOT, '/'), trim($route, '/'));
     }
 
     /**
@@ -312,13 +316,14 @@ class Bootstrap {
      * @param $route
      * @throws Exception
      */
-    public function actionListDir($route) {
+    public function actionListDir($route, $recourse = false) {
         $title = DirectoryIndex::trimFileExtension(basename($route));
         // 当前目录索引
-        $currentIndex = DirectoryIndex::listDirectory($route, DirectoryIndex::MODE_READ);
+        $currentIndex = DirectoryIndex::listDirectory($route, DirectoryIndex::MODE_READ, $recourse);
+//        dd($currentIndex);
         // 如果是ajax请求，则以json返回
         if (static::getIsAjax()) {
-            $this->renderJson($currentIndex);
+            $this->renderJson(array_values($currentIndex));
             return;
         }
         // 顶层目录索引

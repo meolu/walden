@@ -10,7 +10,7 @@ return [
     // 站点validationKey
     'validationKey' => 'PdXWDAfV5-gPJJWRar5sEN71DN0JcDRV',
     // 模板名字
-    'template' => 'default',
+    'template' => 'ace',
     // 保存文档和附件的git地址
     'git' => 'git@github.com:meolu/docx-markdown-demo.git',
 ];

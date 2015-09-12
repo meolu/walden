@@ -14,12 +14,12 @@ class DirectoryIndex extends DirectoryIterator {
     /**
      * 文件类型：目录
      */
-    const TYPE_DIR  = 'd';
+    const TYPE_DIR  = 'folder';
 
     /**
      * 文件类型：文件
      */
-    const TYPE_FILE = 'f';
+    const TYPE_FILE = 'item';
 
     const MODE_READ = 'r';
 
@@ -33,7 +33,7 @@ class DirectoryIndex extends DirectoryIterator {
         parent::__construct($path);
     }
 
-    public static function listDirectory($dir = 'docx', $mode = self::MODE_READ) {
+    public static function listDirectory($dir = 'docx', $mode = self::MODE_READ, $recourse = false) {
         $list = [];
         if (is_file($dir)) return [$dir => TYPE_FILE];
 
@@ -43,11 +43,17 @@ class DirectoryIndex extends DirectoryIterator {
             $file  = sprintf('%s/%s', rtrim($dir, '/'), $fileInfo->__toString());
             $url   = static::file2Url($file, $mode);
             $title = basename($url);
-            $list[$title] = [
-                'type'  => $fileInfo->isFile() ? self::TYPE_FILE : self::TYPE_DIR,
-                'title' => $fileInfo->isFile() ? static::trimFileExtension($title) : $title,
-                'link'  => $url,
+            $item = [
+                'type' => $fileInfo->isFile() ? self::TYPE_FILE : self::TYPE_DIR,
+                'name' => $fileInfo->isFile() ? static::trimFileExtension($title) : $title,
+                'link' => $url,
             ];
+            if ($recourse && $fileInfo->isDir()) {
+                $item['children'] = static::listDirectory(Bootstrap::route2file($url), self::MODE_READ, $recourse);
+            }
+            $list[] = $item;
+
+
         }
         return $list;
     }
