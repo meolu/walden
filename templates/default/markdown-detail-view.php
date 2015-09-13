@@ -58,7 +58,7 @@ $baseUrl = preg_replace('#markdown#', '', Bootstrap::getProjectByRoute($route));
     </div>
 </header>
 
-<div class="container content">
+<div class="container">
     <div class="row">
         <div class="col-sm-3">
             <div class="widget-box">
@@ -73,7 +73,7 @@ $baseUrl = preg_replace('#markdown#', '', Bootstrap::getProjectByRoute($route));
                 </div>
             </div>
         </div>
-        <div class="col-sm-9">
+        <div class="col-sm-9 content">
             <!--文档中文内容 start-->
             <?= $content ?>
             <!--文档中文内容 end-->
