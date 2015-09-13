@@ -110,7 +110,7 @@ textarea {
 }
 
 .uploadify-queue-item .cancel a {
-    background: url('/static/uploadify-cancel.png') 0 0 no-repeat;
+    background: url('/static/editor/uploadify-cancel.png') 0 0 no-repeat;
     float: right;
     height: 16px;
     text-indent: -9999px;

@@ -10,7 +10,7 @@ return [
     // 站点validationKey
     'validationKey' => 'PdXWDAfV5-gPJJWRar5sEN71DN0JcDRV',
     // 模板名字
-    'template' => 'ace',
+    'template' => 'default',
     // 保存文档和附件的git地址
-    'git' => 'git@github.com:meolu/docx-markdown-demo.git',
+    'git' => 'git@bitbucket.org:wu_shuiyong/walden-markdown.git',
 ];

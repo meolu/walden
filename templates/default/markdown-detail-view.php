@@ -1,33 +1,49 @@
 <!DOCTYPE html>
-<html>
-<head lang="en">
+<?php
+$route = Bootstrap::route2file(urldecode($_SERVER['REQUEST_URI']));
+$baseUrl = preg_replace('#markdown#', '', Bootstrap::getProjectByRoute($route));
+?>
+<html lang="en">
+<head>
     <meta charset="utf-8" />
     <title><?= $title ?> - <?= Bootstrap::DOC_NAME ?></title>
-    <meta name="keywords" content="documentation,dox" />
-    <meta name="description" content="Generate your documentation." />
-    <script src="/static/prettify.js"></script>
-    <script src="/static/jquery-1.8.2.min.js"></script>
-    <script src="/static/bootstrap/js/bootstrap.js"></script>
+
     <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="/static/base.css" />
+<!--    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" />-->
+    <link rel="stylesheet" href="/static/bootstrap/css/font-awesome.min.css" />
+
+    <!-- page specific plugin styles -->
+
+    <!-- ace styles -->
+
+    <link rel="stylesheet" href="/static/bootstrap/css/ace.min.css" />
+    <!-- inline styles related to this page -->
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/base.css" />
+
+
+    <!-- ace settings handler -->
+
+<!--    <script src="/static/bootstrap/js/ace-extra.min.js"></script>-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+    <!--[if lt IE 9]>
+    <script src="/static/bootstrap/js/html5shiv.js"></script>
+    <script src="/static/bootstrap/js/respond.min.js"></script>
+    <![endif]-->
 </head>
+
 <body>
-<nav class="navbar navbar-inverse navbar-static-top top-navbar" role="navigation">
+<nav class="navbar navbar-inverse navbar-static-top top-navbar header-color-black" role="navigation">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
             <a class="navbar-brand" href="/"><?= Bootstrap::DOC_NAME ?></a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div class="collapses navbar-collapses">
             <ul class="nav navbar-nav">
                 <?php foreach (DirectoryIndex::getProjects() as $project) { ?>
-                <li><a href="<?= $project['link'] ?>"><?= $project['title'] ?></a></li>
+                    <li><a href="<?= $project['link'] ?>"><?= $project['name'] ?></a></li>
                 <?php } ?>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -38,44 +54,26 @@
 </nav>
 <header class="jumbotron subhead">
     <div class="container">
-        <h1><?= Bootstrap::DOC_NAME ?> <small>瓦尔登 文档工具</small></h1>
+        <h1><small>Demo</small></h1>
     </div>
 </header>
 
 <div class="container content">
     <div class="row">
-        <div class="col-md-3" id="accordion" role="tablist" aria-multiselectable="true">
-            <ul class="nav nav-list bs-docs-sidenav affix">
-                <!--文档的目录 start-->
-                <?php foreach ($index as $item) { ?>
-                    <?php if ($item['type'] == DirectoryIndex::TYPE_FILE) { ?>
-                        <li class="level_1">
-                        <a href="<?= $item['link'] ?>"><?= $item['title'] ?><i class="icon-chevron-right"></i></a>
-                        </li>
-                    <?php } else { ?>
-                        <li class="level_1">
-                            <a href="<?= $item['type'] == DirectoryIndex::TYPE_FILE ? $item['link'] : '#' . $item['title']; ?>"
-                               role="button"
-                               data-dir="<?= $item['link'] ?>"
-                               data-collapse="<?= $item['title'] ?>"
-                               data-toggle="collapse"
-                               data-parent="#accordion"
-                               aria-expanded="true"
-                               aria-controls="collapseOne"
-                               class="<?= $item['type'] == DirectoryIndex::TYPE_DIR ? 'list-dir' : ''?> "
-                            >
-                                <?= $item['title'] ?>
-                                <i class="icon-chevron-right glyphicon glyphicon-folder-open"></i>
-                            </a>
-                            <ul id="<?= $item['title'] ?>" class="bs-docs-left-nav panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne"></ul>
-                        </li>
-                    <?php } ?>
-                <?php } ?>
-                <!--文档的目录 end-->
-            </ul>
+        <div class="col-sm-3">
+            <div class="widget-box">
+                <div class="widget-header header-color-green2 header-color-sblue">
+                    <h4 class="lighter smaller">目录</h4>
+                </div>
 
+                <div class="widget-body">
+                    <div class="widget-main padding-8">
+                        <div id="tree" class="tree"></div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-9">
+        <div class="col-sm-9">
             <!--文档中文内容 start-->
             <?= $content ?>
             <!--文档中文内容 end-->
@@ -94,72 +92,94 @@
         </ul>
     </div>
 </footer>
-<script>
-    $(function() {
-        $('pre').addClass('prettyprint');
-        $('td pre').removeClass('prettyprint');
-        prettyPrint();
-        var $window = $(window);
-        var sidenav = $('.bs-docs-sidenav');
-        if (sidenav.height() < window.innerHeight) {
-            sidenav.affix({
-                offset: {
-                    top: function () {
-                        return $window.width() <= 980 ? 290 : 210
-                    },
-                    bottom: 200
+<!-- basic scripts -->
+
+<!--[if !IE]> -->
+
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='/static/bootstrap/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+</script>
+
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+    window.jQuery || document.write("<script src='/static/bootstrap/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+
+<script type="text/javascript">
+    if("ontouchend" in document) document.write("<script src='/static/bootstrap/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<!--<script src="/static/bootstrap/js/typeahead-bs2.min.js"></script>-->
+
+<!-- page specific plugin scripts -->
+
+<script src="/static/bootstrap/js/fuelux/fuelux.tree.min.js"></script>
+
+<!-- ace scripts -->
+
+<script src="/static/bootstrap/js/ace-elements.min.js"></script>
+<script src="/static/bootstrap/js/ace.min.js"></script>
+
+<!-- inline scripts related to this page -->
+
+<script type="text/javascript">
+    jQuery(function($){
+        var format = function (o) {
+            var list = [];
+            $.each(o, function(k, v) {
+                var item = v;
+                if (item.type == 'folder') {
+                    item.additionalParameters = {'children': format(item.children)};
+                } else {
+                    item.name = '<i class="icon-file-text"></i><a href="' + item.link + '">' + item.name + '</a>'
                 }
-            });
-        } else {
-            sidenav.removeClass('affix');
-        }
-        $(".content").find('h1, h2, h3, h4, h5, h6').each(function () {
-            var node = $(this);
-            // 总是设置id
-            node.attr("id", node.data('id') || "index_" + node.text());
-        });
-
-        $('.bs-docs-sidenav .accordion-marker').on('click', function(event) {
-            var current = $(event.currentTarget);
-            current.find('.glyphicon').toggleClass('glyphicon-chevron-right glyphicon-chevron-down');
-        });
-
-        var getDir = function($this, e) {
-            $.get($this.data('dir'), function(o) {
-                var list = '';
-                $.each(o.data, function (key, data) {
-                    if (data.type == 'd') {
-                        var dir = sprintf('<ul id="%s" class="bs-docs-left-nav panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne"></ul>',
-                            data.title)
-                        list += sprintf('<li class="level_1">' +
-                            '<a href="#%s" role="button" data-dir="%s" data-collapse="%s" data-toggle="collapse" ' +
-                            'data-parent="#accordion" aria-expanded="true" aria-controls="collapseOne" class="list-dir"' +
-                            '>%s<i class="icon-chevron-right glyphicon glyphicon-folder-open"></i></a>' +
-                            '%s' +
-                            '</li>',
-                            data.title, data.link, data.title, data.title, dir)
-                    } else {
-                        list += sprintf('<li class="level_1">' +
-                            '<a href="%s">%s<i class="icon-chevron-right"></i></a>' +
-                            '</li>',
-                            data.link, data.title)
-                    }
-
-                })
-
-                $('#' + $this.data('collapse')).html(list)
-                $('.list-dir').on('click', function (e) {
-                    getDir($(this), e)
-                })
-                $('.collapse').collapse()
-
+               list.push(item)
             })
+            return list;
         }
-        $('.list-dir').click(function (e) {
-            $this = $(this);
-            getDir($(this), e)
 
+
+        $.get('<?= $baseUrl ?>?recourse=1', function(o) {
+            var treeData = format(o.data);
+            var DataSourceTree = function(options) {
+                this._data 	= options.data;
+                this._delay = options.delay;
+            }
+
+            DataSourceTree.prototype.data = function(options, callback) {
+                var self = this;
+                var $data = null;
+
+                if(!("name" in options) && !("type" in options)){
+                    $data = this._data;//the root tree
+                    callback({ data: $data });
+                    return;
+                }
+                else if("type" in options && options.type == "folder") {
+                    if("additionalParameters" in options && "children" in options.additionalParameters)
+                        $data = options.additionalParameters.children;
+                    else $data = {}//no data
+                }
+
+                if($data != null)//this setTimeout is only for mimicking some random delay
+                    setTimeout(function(){callback({ data: $data });} , parseInt(Math.random() * 500) + 200);
+
+            };
+            var treeDataSource = new DataSourceTree({data: treeData});
+            $('#tree').ace_tree({
+                dataSource: treeDataSource ,
+                loadingHTML:'<div class="tree-loading"><i class="icon-refresh icon-spin blue"></i></div>',
+                'open-icon' : 'icon-folder-open',
+                'close-icon' : 'icon-folder-close',
+                'selectable' : false,
+                'selected-icon' : null,
+                'unselected-icon' : null
+            });
         })
+
         <?php if (isset($_GET['action']) && urldecode($_GET['action']) == Bootstrap::PUSH_GIT_URL) { ?>
         // 是否为编辑后的第一次文档预览，需要推送到git
         $.get('<?= Bootstrap::PUSH_GIT_URL ?>', function (o) {
@@ -167,6 +187,7 @@
         })
         <?php } ?>
     });
+
     // 统计
     var _hmt = _hmt || [];
     (function() {
@@ -176,5 +197,6 @@
         s.parentNode.insertBefore(hm, s);
     })();
 </script>
+
 </body>
 </html>

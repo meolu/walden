@@ -9,7 +9,7 @@
 class Command {
 
     public static function log($msg) {
-        file_put_contents('/Users/wushuiyong/workspace/git/docx/app.log', var_export($msg, true) . PHP_EOL, 8);
+//        file_put_contents('/Users/wushuiyong/workspace/git/walden/app.log', var_export($msg, true) . PHP_EOL, 8);
     }
 
     public static function execute($command) {

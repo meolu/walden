@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title><?= $title ?> - 编辑 - <?= Bootstrap::DOC_NAME ?></title>
     <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="/static/editor.css">
+    <link rel="stylesheet" type="text/css" href="/static/editor/editor.css">
 </head>
 <body>
 
@@ -35,9 +35,9 @@
     </form>
 </div>
 
-<script src="/static/jquery-1.8.2.min.js"></script>
-<script src="/static/bootstrap/js/bootstrap.js"></script>
-<script src="/static/jquery.uploadify.js" type="text/javascript"></script>
+<script src="/static/editor/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/static/editor/jquery.uploadify.js" type="text/javascript"></script>
 <script>
 
     function initPicUpload() {
@@ -47,7 +47,7 @@
                 'token'     : '<?= $token ?>'
             },
             'buttonText' : '插入图片 / 附件',
-            'swf'      : '/static/uploadify.swf',
+            'swf'      : '/static/editor/uploadify.swf',
             'uploader' : '<?= Bootstrap::UPLOAD_URL ?>',
             'onSelect': function(file) {
                 console.log(file.name+"---"+file.id);
