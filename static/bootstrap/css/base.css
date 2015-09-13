@@ -233,7 +233,9 @@ ol.linenums li {
 .table p {
   margin: 0;
 }
-
+.content div div img {
+    max-width: 800px;
+}
 
 
 
