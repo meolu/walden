@@ -97,6 +97,7 @@ server {
 修改nginx.conf的http模块：client_max_body_size 10m;
 ```
 
+
 ## 五、截图
 
 #### 前端预览
@@ -106,4 +107,6 @@ server {
 ![markdown编辑后台](https://raw.github.com/meolu/Walden/master/static/screenshots/editor.png)
 
 
+### 有问题加群
+** QQ：135114826 **
 
