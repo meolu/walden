@@ -238,7 +238,16 @@ ol.linenums li {
 .content div div img {
     max-width: 800px;
 }
-
+pre {
+    border-radius: 0;
+}
+blockquote {
+    border-color: #F1F1F1;
+    padding: 10px 20px;
+    margin: 0 0 20px;
+    border-left: 1px solid #000;
+    background-color: #F1F1F1;
+}
 
 
 
