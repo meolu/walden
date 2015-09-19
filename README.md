@@ -3,6 +3,8 @@
 或许是极人性化的一个文档管理框架，让你一下子就喜欢上写文档分享。
 
 ## 演示
+![walden](https://raw.github.com/meolu/Walden/master/static/screenshots/walden.gif)
+
 体验[demo](http://walden.huamanshu.com/)。
 
 ## 特点
@@ -96,15 +98,6 @@ server {
 ```
 修改nginx.conf的http模块：client_max_body_size 10m;
 ```
-
-
-## 五、截图
-
-#### 前端预览
-![前端预览](https://raw.github.com/meolu/Walden/master/static/screenshots/preview.png)
-
-#### markdown编辑后台
-![markdown编辑后台](https://raw.github.com/meolu/Walden/master/static/screenshots/editor.png)
 
 
 ### 有问题加群
