@@ -100,8 +100,8 @@ server {
 ```
 
 ## CHANGELOG
-瓦尔登录的版本记录：[walden](https://github.com/meolu/walden/blob/master/CHANGELOG.md)
+瓦尔登录的版本记录：[CHANGELOG](https://github.com/meolu/walden/blob/master/CHANGELOG.md)
 
-### 有问题加群
+## 有问题加群
 **QQ：135114826**
 
