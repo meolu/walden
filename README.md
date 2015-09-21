@@ -1,6 +1,6 @@
 # Walden 最适合东半球同学使用的文档框架
 
-或许是极人性化的一个文档管理框架，让你一下子就喜欢上写文档分享。
+或许是极人性化的一个文档管理框架，让你一下子就喜欢上写文档分享，[官网主页](http://www.huamanshu.com/walden.html)了解更多。
 
 ## 演示
 ![walden](https://raw.github.com/meolu/Walden/master/static/screenshots/walden.gif)
