@@ -9,23 +9,10 @@ $baseUrl = preg_replace('#markdown#', '', Bootstrap::getProjectByRoute($route));
     <title><?= $title ?> - <?= Bootstrap::DOC_NAME ?></title>
 
     <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css" />
-<!--    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" />-->
     <link rel="stylesheet" href="/static/bootstrap/css/font-awesome.min.css" />
-
-    <!-- page specific plugin styles -->
-
-    <!-- ace styles -->
-
     <link rel="stylesheet" href="/static/bootstrap/css/ace.min.css" />
-    <!-- inline styles related to this page -->
     <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/base.css" />
-
-
-    <!-- ace settings handler -->
-
-<!--    <script src="/static/bootstrap/js/ace-extra.min.js"></script>-->
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <link rel="stylesheet" href="/static/bootstrap/css/github.css">
 
     <!--[if lt IE 9]>
     <script src="/static/bootstrap/js/html5shiv.js"></script>
@@ -39,7 +26,6 @@ $baseUrl = preg_replace('#markdown#', '', Bootstrap::getProjectByRoute($route));
         <div class="navbar-header">
             <a class="navbar-brand" href="/"><?= Bootstrap::DOC_NAME ?></a>
         </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapses navbar-collapses">
             <ul class="nav navbar-nav">
                 <?php foreach (DirectoryIndex::getProjects() as $project) { ?>
@@ -49,7 +35,7 @@ $baseUrl = preg_replace('#markdown#', '', Bootstrap::getProjectByRoute($route));
             <ul class="nav navbar-nav navbar-right">
                 <?php if (isset($editUrl)) { ?><li><a href="<?= $editUrl?>">编辑</a></li><?php } ?>
             </ul>
-        </div><!-- /.navbar-collapse -->
+        </div>
     </div>
 </nav>
 <header class="jumbotron subhead">
@@ -122,6 +108,7 @@ $baseUrl = preg_replace('#markdown#', '', Bootstrap::getProjectByRoute($route));
 
 <script src="/static/bootstrap/js/ace-elements.min.js"></script>
 <script src="/static/bootstrap/js/ace.min.js"></script>
+<script src="/static/bootstrap/js/highlight.pack.js"></script>
 
 <!-- inline scripts related to this page -->
 
@@ -196,7 +183,9 @@ $baseUrl = preg_replace('#markdown#', '', Bootstrap::getProjectByRoute($route));
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
     })();
-</script>
 
+    // 代码高亮
+    hljs.initHighlightingOnLoad();
+</script>
 </body>
 </html>
