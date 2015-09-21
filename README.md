@@ -98,7 +98,8 @@ server {
 ```
 修改nginx.conf的http模块：client_max_body_size 10m;
 ```
-
+### CHANGELOG
+tag的功能记录：[walden](https://raw.github.com/meolu/Walden/master/CHANGELOG.md)
 
 ### 有问题加群
 **QQ：135114826**
