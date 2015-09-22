@@ -166,8 +166,8 @@ class Bootstrap {
     public function renderJson($data, $code = 0, $msg = '') {
         header('content-type:application/json; charset=utf8');
         $ret = [
-            'code' => (int) $code,
-            'msg' => $msg,
+            'code' => (int)$code,
+            'msg'  => $msg,
             'data' => $data
         ];
         echo json_encode($ret, 0);

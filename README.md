@@ -26,50 +26,30 @@
 * 配置nginx指向Walden_WORKSPACE
 
 ## 二、快速开始
-
-### A 初始化
-```
-Config.php
+```php
+> vi Config.php
 <?php
 return [
     // 保存文档和附件的git ssh地址，可以是在github，好吧，不想公开，可以bitbucket
+    ///php进程的用户的id_rsa.pub已添加到git的ssh-key。这样才可以推送markdown下的文件。
     'git' => 'git@github.com:meolu/Walden-markdown-demo.git',
 ];
 ```
-php进程的用户的id_rsa.pub已添加到git的ssh-key。这样才可以推送markdown下的文件。然后初始化markdown目录：`http://your-domain/`
 
-### B 创建项目
-
-创建方式：http://your-domain/project-name/readme.md
-项目可以是中文，或许有更强的阅读性，如：http://your-domain/滑雪修炼手册/介绍.md。
-
-### C 新建文档
-
-新建方式：http://your-domain/project-name/dir/dir/doc.md
-由创建项目的规则知道，url跟认知中的目录是一样的，请随意发挥吧
-
-### D 修改文档
-
-修改方式：http://your-domain/project-name/dir/dir/doc.md
-其实，你不需要记录目录，文档的右上角有`编辑`链接直达
-
-## 三、自定义
-
-### 自定义模板
+## 自定义模板
 
 前端同学可以自己定义模板，在templates下新建一个模板目录，包含预览模板：`markdown-detail-view.php`，编辑模板：`markdown-editor-view.php`，然后修改`Config.php`的`template`为你的模板项目。
 
-最后，当然希望你可以给此项目提个merge_request，目前只有一个bootstrap的默认模板：(
+最后，当然希望你可以给此项目提个pull request，目前只有一个bootstrap的默认模板：(
 
 
 ## to do list
 
 * 文档搜索
-* 文档删除，重命名
-* 新UI
+* 文档删除，重命名UI化
+
 
 ## 四、可能会遇到的问题
-
 
 ### nginx简单配置
 
@@ -100,7 +80,7 @@ server {
 ```
 
 ## CHANGELOG
-瓦尔登录的版本记录：[CHANGELOG](https://github.com/meolu/walden/blob/master/CHANGELOG.md)
+瓦尔登的版本记录：[CHANGELOG](https://github.com/meolu/walden/blob/master/CHANGELOG.md)
 
 ## 有问题加群
 **QQ：135114826**
