@@ -22,13 +22,10 @@
 零安装、零配置，无数据库，不需要composer，开箱即用。
 
 * 依赖git，php，nginx环境
-* 检出Walden到Walden_WORKSPACE，注意该目录可写markdown目录
-* 配置nginx指向Walden_WORKSPACE
 
 ## 二、快速开始
 ```php
-> vi Config.php
-<?php
+vi Config.php
 return [
     // 保存文档和附件的git ssh地址，可以是在github，好吧，不想公开，可以bitbucket
     ///php进程的用户的id_rsa.pub已添加到git的ssh-key。这样才可以推送markdown下的文件。
