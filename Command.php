@@ -11,7 +11,7 @@ class Command {
     private $_log;
 
     public static function log($msg) {
-        file_put_contents('/tmp/cmd.log', var_export($msg, true) . PHP_EOL, 8);
+//        file_put_contents('/tmp/cmd.log', var_export($msg, true) . PHP_EOL, 8);
     }
 
     public function getExeLog() {

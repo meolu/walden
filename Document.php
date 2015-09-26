@@ -43,7 +43,7 @@ class Document extends DirectoryIterator {
      */
     public static function listDirectory($dir = 'docx', $mode = self::MODE_READ, $recourse = false) {
         $list = [];
-        if (is_file($dir)) return [$dir => TYPE_FILE];
+        if (is_file($dir)) return [$dir => static::TYPE_FILE];
 
         $self = new static($dir);
         foreach ($self as $fileInfo) {
