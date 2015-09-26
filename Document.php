@@ -1,6 +1,6 @@
 <?php
 /* *****************************************************************
- * @Author: wushuiyong
+ * @Author: wushuiyong@huamanshu.com
  * @Created Time : 日  8/30 23:30:24 2015
  *
  * @File Name: Directory.php
@@ -9,7 +9,7 @@
 
 require_once 'Bootstrap.php';
 
-class DirectoryIndex extends DirectoryIterator {
+class Document extends DirectoryIterator {
 
     /**
      * 文件类型：目录
@@ -61,7 +61,7 @@ class DirectoryIndex extends DirectoryIterator {
     public static function getProjects() {
         $projects = static::listDirectory(Bootstrap::MARKDOWN_ROOT);
         foreach ($projects as $key => &$project) {
-            if ($project['type'] == DirectoryIndex::TYPE_FILE) {
+            if ($project['type'] == Document::TYPE_FILE) {
                 unset($projects[$key]);
             }
         }

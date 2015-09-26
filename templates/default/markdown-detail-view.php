@@ -28,7 +28,7 @@ $baseUrl = preg_replace('#markdown#', '', Bootstrap::getProjectByRoute($route));
         </div>
         <div class="collapses navbar-collapses">
             <ul class="nav navbar-nav">
-                <?php foreach (DirectoryIndex::getProjects() as $project) { ?>
+                <?php foreach (Document::getProjects() as $project) { ?>
                     <li><a href="<?= $project['link'] ?>"><?= $project['name'] ?></a></li>
                 <?php } ?>
             </ul>
@@ -72,8 +72,8 @@ $baseUrl = preg_replace('#markdown#', '', Bootstrap::getProjectByRoute($route));
             <a href="#">Back to top</a>
         </p>
         <ul class="footer-links">
-            <li><a href="http://walden.huamanshu.com" target="_blank">walden主页</a></li>
-            <li><a href="https://github.com/meolu/walden" target="_blank">walden源码</a></li>
+            <li><a href="http://www.huamanshu.com/walden.html" target="_blank">walden主页</a></li>
+            <li><a href="https://github.com/meolu/walden" target="_blank">github项目</a></li>
             <li><a href="https://github.com/meolu/walden/issues?state=open" target="_blank">提交bug</a></li>
         </ul>
     </div>

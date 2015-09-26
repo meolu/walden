@@ -1,14 +1,14 @@
 <?php
 /* *****************************************************************
- * @Author: wushuiyong
+ * @Author: wushuiyong@huamanshu.com
  * @Created Time : 一  8/31 12:39:22 2015
  *
- * @File Name: bootstrap.php
+ * @File Name: Bootstrap.php
  * @Description:
  * *****************************************************************/
 require_once 'Command.php';
 require_once 'Parsedown.php';
-require_once 'DirectoryIndex.php';
+require_once 'Document.php';
 
 class Bootstrap {
 
@@ -120,7 +120,7 @@ class Bootstrap {
         elseif ($route === static::getSafeFile(self::PUSH_GIT_URL)) {
             $this->actionPushGit();
         } else {
-            echo $file;
+            throw new Exception("无此目录：{$file}，请确认：）");
         }
     }
 
@@ -140,6 +140,7 @@ class Bootstrap {
     public function redirect($url, $status = 302) {
         header("Location: $url", TRUE, $status);
     }
+
     /**
      * 页面渲染
      *
@@ -250,48 +251,49 @@ class Bootstrap {
         return $match ? current($match) : static::MARKDOWN_ROOT;
     }
 
-    public function exceptionHandle() {
-    }
-
     /**
      * html渲染
+     *
      * @param $file
      * @throws Exception
      */
     public function actionReadHtml($file) {
         $mdFile = static::html2MdFile($file);
-        if ($mdFile && file_exists($mdFile) && is_file($mdFile)) {
-            // 目录索引
-            $index = DirectoryIndex::listDirectory(static::getProjectByRoute($mdFile), DirectoryIndex::MODE_READ);
-            // 标题
-            $title = DirectoryIndex::trimFileExtension(basename($file));
-            // 文档预览
-            $content = file_get_contents($mdFile);
-            $parser = new Parsedown();
-            $dom =  $parser->text($content);
-            $this->render(static::VIEW_DETAIL, [
-                'index'   => $index,
-                'editUrl' => DirectoryIndex::file2Url($mdFile, DirectoryIndex::MODE_WRITE),
-                'title'   => $title,
-                'content' => $dom,
-            ]);
+        if (!$mdFile || !file_exists($mdFile) || !is_file($mdFile)) {
+            throw new Exception("无此文档：{$file}，请确认：）");
         }
+        // 目录索引
+        $index = Document::listDirectory(static::getProjectByRoute($mdFile), Document::MODE_READ);
+        // 标题
+        $title = Document::trimFileExtension(basename($file));
+        // 文档预览
+        $content = file_get_contents($mdFile);
+        $parser = new Parsedown();
+        $dom =  $parser->text($content);
+        $this->render(static::VIEW_DETAIL, [
+            'index'   => $index,
+            'editUrl' => Document::file2Url($mdFile, Document::MODE_WRITE),
+            'title'   => $title,
+            'content' => $dom,
+        ]);
     }
 
 
     /**
      * 编辑md文件 /docx/usage/start.md
+     *
      * @param $file
      * @param $route
      * @throws Exception
      */
     public function actionEditMarkdown($file, $route) {
-        $title = DirectoryIndex::trimFileExtension(basename($file));
+        $title = Document::trimFileExtension(basename($file));
         if (!is_file($file)) {
             $cmd[]   = sprintf("mkdir -p %s", dirname($file));
             $cmd[]   = sprintf("echo '# %s%s-------------' > %s", $title, PHP_EOL, $file);
             $command = join(" && ", $cmd);
-            $ret = Command::execute($command);
+            $cmd = new Command();
+            $ret = $cmd->execute($command);
         }
         $content = file_get_contents($file);
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -305,29 +307,28 @@ class Bootstrap {
         $this->render(static::VIEW_EDITOR, [
             'timestamp' => $time,
             'token'     => md5($this->_config['validationKey'] . $time),
-            'returnUrl' => DirectoryIndex::file2Url($file),
+            'returnUrl' => Document::file2Url($file),
             'title'     => $title,
             'content'   => $content,
         ]);
     }
 
     /**
-     * 目录已存在，列出文件。/docx/usage
+     * 目录已存在，列出文件。但我不想写了。。。/docx/usage
+     *
      * @param $route
      * @throws Exception
      */
     public function actionListDir($route, $recourse = false) {
-        $title = DirectoryIndex::trimFileExtension(basename($route));
+        $title = Document::trimFileExtension(basename($route));
         // 当前目录索引
-        $currentIndex = DirectoryIndex::listDirectory($route, DirectoryIndex::MODE_READ, $recourse);
-//        dd($currentIndex);
+        $currentIndex = Document::listDirectory($route, Document::MODE_READ, $recourse);
         // 如果是ajax请求，则以json返回
         if (static::getIsAjax()) {
             $this->renderJson(array_values($currentIndex));
-            return;
         }
         // 顶层目录索引
-        $TopIndex = DirectoryIndex::listDirectory(static::getProjectByRoute($route), DirectoryIndex::MODE_READ);
+        $TopIndex = Document::listDirectory(static::getProjectByRoute($route), Document::MODE_READ);
         $this->render(static::VIEW_DETAIL, [
             'index'   => $TopIndex,
             'currentIndex' => $currentIndex,
@@ -342,24 +343,24 @@ class Bootstrap {
     public function actionUploadAttached() {
         // Define a destination
         $verifyToken = md5($this->_config['validationKey'] . $_POST['timestamp']);
-        if (!empty($_FILES) && $_POST['token'] == $verifyToken) {
-            // Validate the file extensions
-            $fileTypes = array_merge($this->imageExtensions, $this->attachedExtensions);
-            $fileParts = pathinfo($_FILES['Filedata']['name']);
-            if (in_array(strtolower($fileParts['extension']), $fileTypes)) {
-                $tempFile   = $_FILES['Filedata']['tmp_name'];
-                $newFile    = sprintf("%s-%d.%s", date("YmdHis", time()), rand(10, 99), $fileParts['extension']);
-                $targetFile = rtrim(self::UPLOAD_ROOT, '/') . '/' . $newFile;
-                $ret = move_uploaded_file($tempFile, $targetFile);
+        if (empty($_FILES)) die('请上传文件');
+        if ($_POST['token'] == $verifyToken) die('别闹了：）');
 
-                $md = in_array(strtolower($fileParts['extension']), $this->imageExtensions)
-                    ? sprintf("![%s](/%s)", $_FILES['Filedata']['name'], trim($targetFile, '/'))
-                    : sprintf("[%s](/%s)", $_FILES['Filedata']['name'], trim($targetFile, '/'));
-                echo $ret ? $md : '上传附件失败';
-            } else {
-                echo '上传附件失败，附件格式只支持：' . join(', ', $fileTypes);
-            }
-        }
+        // Validate the file extensions
+        $fileTypes = array_merge($this->imageExtensions, $this->attachedExtensions);
+        $fileParts = pathinfo($_FILES['Filedata']['name']);
+        if (!in_array(strtolower($fileParts['extension']), $fileTypes)) die('上传附件失败，附件格式只支持：' . join(', ', $fileTypes));
+
+        $tempFile   = $_FILES['Filedata']['tmp_name'];
+        $newFile    = sprintf("%s-%d.%s", date("YmdHis", time()), rand(10, 99), $fileParts['extension']);
+        $targetFile = rtrim(self::UPLOAD_ROOT, '/') . '/' . $newFile;
+        $ret = move_uploaded_file($tempFile, $targetFile);
+
+        $md = in_array(strtolower($fileParts['extension']), $this->imageExtensions)
+            ? sprintf("![%s](/%s)", $_FILES['Filedata']['name'], trim($targetFile, '/'))
+            : sprintf("[%s](/%s)", $_FILES['Filedata']['name'], trim($targetFile, '/'));
+        echo $ret ? $md : '上传附件失败';
+
     }
 
     /**
@@ -368,6 +369,11 @@ class Bootstrap {
     public function actionInit() {
         $git = new Command();
         $ret = $git->initGit($this->_config['git'], dirname(__FILE__), static::MARKDOWN_ROOT);
+        if ($ret) {
+            $this->redirect('/');
+        } else {
+            throw new Exception('初始化git文档目录失败：', var_export(join("<br>", $git->getExeLog()), true));
+        }
     }
 
     /**
@@ -375,7 +381,36 @@ class Bootstrap {
      */
     public function actionPushGit() {
         $markdown = sprintf("%s/%s", rtrim(dirname(__FILE__), '/'), static::MARKDOWN_ROOT);
-        $ret = Command::gitPush($markdown);
+        $git = new Command();
+        $ret = $git->gitPush($markdown);
         echo $ret ? '推送成功：）' : '推送失败：（';
     }
+
+    /**
+     * 用户错误捕获
+     *
+     * @param $errNo
+     * @param $errStr
+     * @param $errFile
+     * @param $errLine
+     * @param $errContext
+     */
+    public function errorHandler($errNo , $errStr, $errFile, $errLine, $errContext) {
+        throw new Exception($errStr);
+    }
+
+    /**
+     * 异常捕获处理
+     *
+     * @param Exception $e
+     * @throws Exception
+     */
+    public function exceptionHandler(Exception $e) {
+        $msg = sprintf('<div class="alert alert-danger">%s</div>', $e->getMessage());
+        $this->render(static::VIEW_DETAIL, [
+            'title'   => '哎哟，不好了：(',
+            'content' => $msg,
+        ]);
+    }
+
 }

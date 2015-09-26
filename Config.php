@@ -1,6 +1,6 @@
 <?php
 /* *****************************************************************
- * @Author: wushuiyong
+ * @Author: wushuiyong@huamanshu.com
  * @Created Time : 一  8/31 14:52:40 2015
  *
  * @File Name: config.php
@@ -12,5 +12,5 @@ return [
     // 模板名字
     'template' => 'default',
     // 保存文档和附件的git地址
-    'git' => 'git@bitbucket.org:wu_shuiyong/walden-markdown.git',
+    'git' => 'git@bitbucket.org:wu_shuiyong/test.git',
 ];
