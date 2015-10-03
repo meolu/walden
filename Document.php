@@ -102,11 +102,12 @@ class Document extends DirectoryIterator {
      * @return string
      */
     public static function trimFileExtension($file) {
-        if (strpos($file, Bootstrap::TYPE_HTML)) {
-            $file = trim($file, Bootstrap::TYPE_HTML);
+        $len = strlen($file);
+        if (substr($file, $len - strlen(Bootstrap::TYPE_HTML)) == Bootstrap::TYPE_HTML) {
+            $file = substr($file, 0, $len - strlen(Bootstrap::TYPE_HTML));
         }
-        if (strpos($file, Bootstrap::TYPE_MD)) {
-            $file = trim($file, Bootstrap::TYPE_MD);
+        if (substr($file, $len - strlen(Bootstrap::TYPE_MD)) == Bootstrap::TYPE_MD) {
+            $file = substr($file, 0, $len - strlen(Bootstrap::TYPE_MD));
         }
 
         return $file;
