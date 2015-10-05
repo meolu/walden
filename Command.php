@@ -23,7 +23,7 @@ class Command {
         self::log('---- Executing: $ ' . $command);
 
         $return = 1;
-        $log = [];
+        $log = array();
         exec($command . ' 2>&1', $log, $return);
         $this->_log = implode(PHP_EOL, $log);
         self::log($this->_log);

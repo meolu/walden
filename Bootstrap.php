@@ -64,17 +64,17 @@ class Bootstrap {
     /**
      * 图片后缀
      */
-    public $imageExtensions = [
+    public $imageExtensions = array(
         'jpg', 'jpeg', 'gif', 'png',
-    ];
+    );
 
     /**
      * 附件后缀
      */
-    public $attachedExtensions = [
-        'zip', 'tar.gz', 'tgz', 'rar'
+    public $attachedExtensions = array(
+        'zip', 'tar.gz', 'tgz', 'rar',
 
-    ];
+    );
 
     public function __construct() {
     }
@@ -166,11 +166,11 @@ class Bootstrap {
      */
     public function renderJson($data, $code = 0, $msg = '') {
         header('content-type:application/json; charset=utf8');
-        $ret = [
+        $ret = array(
             'code' => (int)$code,
             'msg'  => $msg,
             'data' => $data
-        ];
+        );
         echo json_encode($ret, 0);
         die;
     }
@@ -270,12 +270,12 @@ class Bootstrap {
         $content = file_get_contents($mdFile);
         $parser = new Parsedown();
         $dom =  $parser->text($content);
-        $this->render(static::VIEW_DETAIL, [
+        $this->render(static::VIEW_DETAIL, array(
             'index'   => $index,
             'editUrl' => Document::file2Url($mdFile, Document::MODE_WRITE),
             'title'   => $title,
             'content' => $dom,
-        ]);
+        ));
     }
 
 
@@ -304,13 +304,13 @@ class Bootstrap {
             $this->redirect($url);
         }
         $time = time();
-        $this->render(static::VIEW_EDITOR, [
+        $this->render(static::VIEW_EDITOR,array(
             'timestamp' => $time,
             'token'     => md5($this->_config['validationKey'] . $time),
             'returnUrl' => Document::file2Url($file),
             'title'     => $title,
             'content'   => $content,
-        ]);
+        ));
     }
 
     /**
@@ -329,12 +329,12 @@ class Bootstrap {
         }
         // 顶层目录索引
         $TopIndex = Document::listDirectory(static::getProjectByRoute($route), Document::MODE_READ);
-        $this->render(static::VIEW_DETAIL, [
+        $this->render(static::VIEW_DETAIL,array(
             'index'   => $TopIndex,
             'currentIndex' => $currentIndex,
             'title'     => $title,
             'content' => '',
-        ]);
+        ));
     }
 
     /**
@@ -344,7 +344,7 @@ class Bootstrap {
         // Define a destination
         $verifyToken = md5($this->_config['validationKey'] . $_POST['timestamp']);
         if (empty($_FILES)) die('请上传文件');
-        if ($_POST['token'] == $verifyToken) die('别闹了：）');
+        if ($_POST['token'] != $verifyToken) die('别闹了：）');
 
         // Validate the file extensions
         $fileTypes = array_merge($this->imageExtensions, $this->attachedExtensions);
@@ -407,10 +407,10 @@ class Bootstrap {
      */
     public function exceptionHandler(Exception $e) {
         $msg = sprintf('<div class="alert alert-danger">%s</div>', $e->getMessage());
-        $this->render(static::VIEW_DETAIL, [
+        $this->render(static::VIEW_DETAIL,array(
             'title'   => '哎哟，不好了：(',
             'content' => $msg,
-        ]);
+        ));
     }
 
 }

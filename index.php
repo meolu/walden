@@ -19,8 +19,8 @@ require_once 'Bootstrap.php';
 
 $bootstrap = new Bootstrap();
 // 设置错误捕获
-set_error_handler([$bootstrap, 'errorHandler']);
+set_error_handler(array($bootstrap, 'errorHandler'));
 // 设置异常捕获
-set_exception_handler([$bootstrap, 'exceptionHandler']);
+set_exception_handler(array($bootstrap, 'exceptionHandler'));
 
 $bootstrap->setConfig($config)->run();

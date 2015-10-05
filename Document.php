@@ -27,7 +27,7 @@ class Document extends DirectoryIterator {
 
     public static $MARKDOWN_ROOT;
 
-    public static $EXCLUDES = ['.git', 'upload',];
+    public static $EXCLUDES = array('.git', 'upload',);
 
     public function __construct($path) {
         parent::__construct($path);
@@ -42,8 +42,8 @@ class Document extends DirectoryIterator {
      * @return array
      */
     public static function listDirectory($dir = 'docx', $mode = self::MODE_READ, $recourse = false) {
-        $list = [];
-        if (is_file($dir)) return [$dir => static::TYPE_FILE];
+        $list = array();
+        if (is_file($dir)) return array($dir => static::TYPE_FILE);
 
         $self = new static($dir);
         foreach ($self as $fileInfo) {
@@ -51,11 +51,11 @@ class Document extends DirectoryIterator {
             $file  = sprintf('%s/%s', rtrim($dir, '/'), $fileInfo->__toString());
             $url   = static::file2Url($file, $mode);
             $title = basename($url);
-            $item = [
+            $item = array(
                 'type' => $fileInfo->isFile() ? self::TYPE_FILE : self::TYPE_DIR,
                 'name' => $fileInfo->isFile() ? static::trimFileExtension($title) : $title,
                 'link' => $url,
-            ];
+            );
             if ($recourse && $fileInfo->isDir()) {
                 $item['children'] = static::listDirectory(Bootstrap::route2file($url), self::MODE_READ, $recourse);
             }

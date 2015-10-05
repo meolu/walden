@@ -39,7 +39,6 @@
 <script src="/static/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="/static/editor/jquery.uploadify.js" type="text/javascript"></script>
 <script>
-
     function initPicUpload() {
         $('#file_upload').uploadify({
             'formData'     : {
