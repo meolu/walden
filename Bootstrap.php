@@ -367,8 +367,11 @@ class Bootstrap {
      * 初始化docx
      */
     public function actionInit() {
+        if (empty($this->_config['git'])) {
+            throw new Exception('请先在Config.php中配置文档保存到的git ssh地址：)');
+        }
         $git = new Command();
-        $ret = $git->initGit($this->_config['git'], dirname(__FILE__), static::MARKDOWN_ROOT);
+        $ret = $git->initGit($this->_config['git']);
         if ($ret) {
             $this->redirect('/');
         } else {
@@ -380,10 +383,16 @@ class Bootstrap {
      * 推送git
      */
     public function actionPushGit() {
-        $markdown = sprintf("%s/%s", rtrim(dirname(__FILE__), '/'), static::MARKDOWN_ROOT);
-        $git = new Command();
-        $ret = $git->gitPush($markdown);
-        echo $ret ? '推送成功：）' : '推送失败：（';
+        if (empty($this->_config['git'])) {
+            throw new Exception('请先在Config.php中配置文档保存到的git ssh地址：)');
+        }
+        try {
+            $git = new Command();
+            $ret = $git->gitPush();
+            echo $ret ? '推送成功：）' : '推送失败：（';
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
     }
 
     /**

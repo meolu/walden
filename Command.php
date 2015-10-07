@@ -1,7 +1,7 @@
 <?php
 /* *****************************************************************
- * @Author: wushuiyong@huamanshu.com
- * @Created Time : 一  8/31 15:35:35 2015
+ * @Author: wushuiyong
+ * @Created Time : 三 10/ 7 19:43:39 2015
  *
  * @File Name: Command.php
  * @Description:
@@ -11,7 +11,7 @@ class Command {
     private $_log;
 
     public static function log($msg) {
-//        file_put_contents('/tmp/cmd.log', var_export($msg, true) . PHP_EOL, 8);
+//        file_put_contents('/tmp/cmd', var_export($msg, true) . PHP_EOL, 8);
     }
 
     public function getExeLog() {
@@ -32,10 +32,21 @@ class Command {
         return !$return;
     }
 
-    public function gitPush($markdown) {
+    /**
+     * 推送更新
+     *
+     * @return bool
+     */
+    public function gitPush() {
+        $markdownDir = sprintf("%s/markdown", WEB_ROOT);
         // 存在git目录，直接push
-        if (!file_exists($markdown)) return false;
-        $cmd[] = sprintf('cd %s ', $markdown);
+        if (!file_exists($markdownDir) || !file_exists($markdownDir . '/.git')) return false;
+
+        if (!file_exists($markdownDir) || !file_exists($markdownDir . '/.git')) {
+            throw new \Exception('初始化git目录失败:' . $this->getExeLog());
+        }
+
+        $cmd[] = sprintf('cd %s ', $markdownDir);
         $cmd[] = sprintf('/usr/bin/env git add .');
         $cmd[] = sprintf('/usr/bin/env git commit -m"%s"', date("Y-m-d H:i:s", time()));
         $cmd[] = sprintf('/usr/bin/env git push origin master');
@@ -43,13 +54,28 @@ class Command {
         return $this->execute($command);
     }
 
-    public function initGit($gitRepo, $webroot, $markdown) {
-        $gitDir = sprintf("%s/%s", rtrim($webroot, '/'), $markdown);
-        if (file_exists($gitDir) && file_exists(rtrim($gitDir, '/') . '/.git')) return true;
+    /**
+     * 初始化git项目
+     *
+     * @param $gitRepo
+     * @return bool
+     */
+    public function initGit($gitRepo) {
+        $markdownDir = sprintf("%s/markdown", WEB_ROOT);
+        if (file_exists($markdownDir) && file_exists(rtrim($markdownDir, '/') . '/.git')) return true;
 
-        $cmd[] = sprintf('cd %s ', $webroot);
-        $cmd[] = sprintf('/usr/bin/env git clone %s %s', $gitRepo, $markdown);
-        $cmd[] = sprintf('mkdir -p %s/upload', $markdown);
+        if (file_exists($markdownDir)) {
+            $cmd[] = sprintf('cd %s', $markdownDir);
+            $cmd[] = sprintf('/usr/bin/env git init');
+            $cmd[] = sprintf('mkdir -p %s/upload', $markdownDir);
+            $cmd[] = sprintf('/usr/bin/env git remote add origin %s', $gitRepo);
+        } else {
+            $cmd[] = sprintf('mkdir %s', $markdownDir);
+            $cmd[] = sprintf('cd %s', $markdownDir);
+            $cmd[] = sprintf('/usr/bin/env git clone %s .', $gitRepo);
+            $cmd[] = sprintf('mkdir -p %s/upload', $markdownDir);
+        }
+
         $command = join(' && ', $cmd);
         return $this->execute($command);
     }

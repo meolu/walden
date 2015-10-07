@@ -13,6 +13,8 @@ setlocale(LC_ALL, 'en_US.UTF8');
 ini_set('date.timezone','Asia/Shanghai');
 // error report off
 ini_set('display_errors', 0);
+// 根目录
+define('WEB_ROOT', __DIR__);
 
 $config = include('Config.php');
 require_once 'Bootstrap.php';

@@ -21,7 +21,7 @@
 
 零安装、零配置，无数据库，不需要composer，开箱即用。
 
-* 依赖git，php，nginx环境
+* 依赖git，php5.3，nginx环境
 
 ## 二、快速开始
 ```php

@@ -41,9 +41,15 @@ class Document extends DirectoryIterator {
      * @param bool $recourse
      * @return array
      */
-    public static function listDirectory($dir = 'docx', $mode = self::MODE_READ, $recourse = false) {
+    public static function listDirectory($dir = 'markdown', $mode = self::MODE_READ, $recourse = false) {
         $list = array();
-        if (is_file($dir)) return array($dir => static::TYPE_FILE);
+        if (is_file($dir)) {
+            return array($dir => static::TYPE_FILE);
+        }
+
+        if (!file_exists($dir)) {
+            return $list;
+        }
 
         $self = new static($dir);
         foreach ($self as $fileInfo) {
