@@ -6,7 +6,7 @@ $baseUrl = preg_replace('#markdown#', '', Bootstrap::getProjectByRoute($route));
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title><?= $title ?> - <?= Bootstrap::DOC_NAME ?></title>
+    <title><?php echo $title ?> - <?php echo Bootstrap::DOC_NAME ?></title>
 
     <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/static/bootstrap/css/font-awesome.min.css" />
@@ -24,16 +24,16 @@ $baseUrl = preg_replace('#markdown#', '', Bootstrap::getProjectByRoute($route));
 <nav class="navbar navbar-inverse navbar-static-top top-navbar header-color-black" role="navigation">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/"><?= Bootstrap::DOC_NAME ?></a>
+            <a class="navbar-brand" href="/"><?php echo Bootstrap::DOC_NAME ?></a>
         </div>
         <div class="collapses navbar-collapses">
             <ul class="nav navbar-nav">
                 <?php foreach (Document::getProjects() as $project) { ?>
-                    <li><a href="<?= $project['link'] ?>"><?= $project['name'] ?></a></li>
+                    <li><a href="<?php echo $project['link'] ?>"><?php echo $project['name'] ?></a></li>
                 <?php } ?>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <?php if (isset($editUrl)) { ?><li><a href="<?= $editUrl?>">编辑</a></li><?php } ?>
+                <?php if (isset($editUrl)) { ?><li><a href="<?php echo $editUrl?>">编辑</a></li><?php } ?>
             </ul>
         </div>
     </div>
@@ -61,7 +61,7 @@ $baseUrl = preg_replace('#markdown#', '', Bootstrap::getProjectByRoute($route));
         </div>
         <div class="col-sm-9 content">
             <!--文档中文内容 start-->
-            <?= $content ?>
+            <?php echo $content ?>
             <!--文档中文内容 end-->
         </div>
     </div>
@@ -129,7 +129,7 @@ $baseUrl = preg_replace('#markdown#', '', Bootstrap::getProjectByRoute($route));
         }
 
 
-        $.get('<?= $baseUrl ?>?recourse=1', function(o) {
+        $.get('<?php echo $baseUrl ?>?recourse=1', function(o) {
             var treeData = format(o.data);
             var DataSourceTree = function(options) {
                 this._data 	= options.data;
@@ -169,7 +169,7 @@ $baseUrl = preg_replace('#markdown#', '', Bootstrap::getProjectByRoute($route));
 
         <?php if (isset($_GET['action']) && urldecode($_GET['action']) == Bootstrap::PUSH_GIT_URL) { ?>
         // 是否为编辑后的第一次文档预览，需要推送到git
-        $.get('<?= Bootstrap::PUSH_GIT_URL ?>', function (o) {
+        $.get('<?php echo Bootstrap::PUSH_GIT_URL ?>', function (o) {
             console.log(o);
         })
         <?php } ?>

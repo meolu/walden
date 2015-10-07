@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title><?= $title ?> - 编辑 - <?= Bootstrap::DOC_NAME ?></title>
+    <title><?php echo $title ?> - 编辑 - <?php echo Bootstrap::DOC_NAME ?></title>
     <link rel="stylesheet" type="text/css" href="/static/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/editor/editor.css">
 </head>
@@ -20,16 +20,16 @@
 
 <div id="editor">
     <form action="" method="POST">
-        <input name="token" type="hidden" value="<?= $token ?>">
-        <input name="timestamp" type="hidden" value="<?= $timestamp ?>">
-        <textarea  id="textarea" name="content"><?= $content ?></textarea>
+        <input name="token" type="hidden" value="<?php echo $token ?>">
+        <input name="timestamp" type="hidden" value="<?php echo $timestamp ?>">
+        <textarea  id="textarea" name="content"><?php echo $content ?></textarea>
         <div id="queue"></div>
         <input id="file_upload" class="upload" name="file_upload" type="file" multiple="true">
         <button type="submit" class="btn btn-default save" aria-label="Left Align" value="保存">
             <span class="glyphicon glyphicon-align-left glyphicon-floppy-saved" aria-hidden="true"></span>
             保存
         </button>
-        <a href="<?= $returnUrl ?>" class="btn btn-default return" value="">
+        <a href="<?php echo $returnUrl ?>" class="btn btn-default return" value="">
             <i class="glyphicon  glyphicon-arrow-left"></i>返回
         </a>
     </form>
@@ -42,12 +42,12 @@
     function initPicUpload() {
         $('#file_upload').uploadify({
             'formData'     : {
-                'timestamp' : '<?= $timestamp; ?>',
-                'token'     : '<?= $token ?>'
+                'timestamp' : '<?php echo $timestamp; ?>',
+                'token'     : '<?php echo $token ?>'
             },
             'buttonText' : '插入图片 / 附件',
             'swf'      : '/static/editor/uploadify.swf',
-            'uploader' : '<?= Bootstrap::UPLOAD_URL ?>',
+            'uploader' : '<?php echo Bootstrap::UPLOAD_URL ?>',
             'onSelect': function(file) {
                 console.log(file.name+"---"+file.id);
             },// 选择文件时触发的方法
