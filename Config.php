@@ -12,5 +12,5 @@ return array(
     // 模板名字
     'template' => 'default',
     // 保存文档和附件的git地址
-    'git' => 'git@bitbucket.org:wu_shuiyong/test.git',
+    'git' => 'git@bitbucket.org:wu_shuiyong/walden-markdown.git',
 );
