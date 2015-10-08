@@ -57,6 +57,10 @@ server {
     root /the/dir/of/Walden;
     index index.php;
 
+    # 建议放内网做文档服务
+    allow 192.168.0.0/24;
+    deny all;
+
     location / {
         try_files $uri $uri/ /index.php$is_args$args;
     }
