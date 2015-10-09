@@ -1,5 +1,7 @@
 # Walden 最适合东半球同学使用的文档框架
 
+![](https://codeship.com/projects/e42f8850-50a5-0133-5daf-5abe51be460d/status?branch=master)
+
 或许是极人性化的一个文档管理框架，让你一下子就喜欢上写文档分享，[官网主页](http://www.huamanshu.com/walden.html)了解更多。
 
 ## 演示
