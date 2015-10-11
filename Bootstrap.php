@@ -375,7 +375,7 @@ class Bootstrap {
         if ($ret) {
             $this->redirect('/');
         } else {
-            throw new Exception('初始化git文档目录失败：', var_export(join("<br>", $git->getExeLog()), true));
+            throw new Exception('初始化git文档目录失败：', var_export(explode("<br>", $git->getExeLog()), true));
         }
     }
 
