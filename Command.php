@@ -11,7 +11,7 @@ class Command {
     private $_log;
 
     public static function log($msg) {
-//        file_put_contents('/tmp/cmd', var_export($msg, true) . PHP_EOL, 8);
+        // file_put_contents('/tmp/cmd', var_export($msg, true) . PHP_EOL, 8);
     }
 
     public function getExeLog() {
@@ -23,9 +23,9 @@ class Command {
         self::log('---- Executing: $ ' . $command);
 
         $return = 1;
-        $log = array();
+        $log = '';
         exec($command . ' 2>&1', $log, $return);
-        $this->_log = implode(PHP_EOL, $log);
+        $this->_log = implode(PHP_EOL, $log) ?: [];
         self::log($this->_log);
         self::log('---------------------------------');
 
@@ -79,6 +79,20 @@ class Command {
         $command = join(' && ', $cmd);
         return $this->execute($command);
     }
+
+    /**
+     * 清除初始化时的目录
+     *
+     * @return bool
+     */
+    public function cleanInitDir() {
+        $markdownDir = sprintf("%s/markdown", WEB_ROOT);
+        if (!file_exists($markdownDir)) return true;
+
+        $command = sprintf('rm -rf %s', $markdownDir);
+        return $this->execute($command);
+    }
+
 
 
 }

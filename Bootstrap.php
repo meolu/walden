@@ -364,18 +364,23 @@ class Bootstrap {
     }
 
     /**
-     * 初始化docx
+     * 初始化markdown
      */
     public function actionInit() {
         if (empty($this->_config['git'])) {
             throw new Exception('请先在Config.php中配置文档保存到的git ssh地址：)');
+        }
+        if (strpos($this->_config['git'], '.git') === false) {
+            throw new Exception('请确保Config.php中配置的git为ssh格式地址：)');
         }
         $git = new Command();
         $ret = $git->initGit($this->_config['git']);
         if ($ret) {
             $this->redirect('/');
         } else {
-            throw new Exception('初始化git文档目录失败：', var_export(explode("<br>", $git->getExeLog()), true));
+            $git->cleanInitDir();
+            throw new Exception('初始化git文档目录失败，请确认php进程用户'
+                . Get_Current_User() . '的ssh-key已加入git的ssh-key列表。');
         }
     }
 
