@@ -380,7 +380,7 @@ class Bootstrap {
         } else {
             $git->cleanInitDir();
             throw new Exception('初始化git文档目录失败，请确认php进程用户'
-                . Get_Current_User() . '的ssh-key已加入git的ssh-key列表。');
+                . getenv("USER") . '的ssh-key已加入git的ssh-key列表。');
         }
     }
 
