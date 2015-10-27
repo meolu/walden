@@ -29,9 +29,13 @@
 ```php
 vi Config.php
 return [
-    // 保存文档和附件的git ssh地址，可以是在github，好吧，不想公开，可以bitbucket
-    ///php进程的用户的id_rsa.pub已添加到git的ssh-key。这样才可以推送markdown下的文件。
+    // 项目留空保存文档和附件的git地址，可以是在github，好吧，不想公开，可以bitbucket。
+
+    // 1.php进程的用户的id_rsa.pub已添加到git的ssh-key。这样才可以推送markdown下的文件。
     'git' => 'git@github.com:meolu/Walden-markdown-demo.git',
+
+    // 2.好吧，如果实在不想加key，可以直接明文用户名密码认证的http(s)地址也可以。
+    // 'git' => 'https://username:password@github.com/meolu/Walden-markdown-demo.git',
 ];
 ```
 
