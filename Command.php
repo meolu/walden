@@ -25,7 +25,7 @@ class Command {
         $return = 1;
         $log = '';
         exec($command . ' 2>&1', $log, $return);
-        $this->_log = implode(PHP_EOL, $log) ?: [];
+        $this->_log = implode(PHP_EOL, $log) ?: array();
         self::log($this->_log);
         self::log('---------------------------------');
 
