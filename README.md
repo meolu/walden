@@ -65,8 +65,8 @@ server {
     index index.php;
 
     # 建议放内网做文档服务
-    allow 192.168.0.0/24;
-    deny all;
+    #allow 192.168.0.0/24;
+    #deny all;
 
     location / {
         try_files $uri $uri/ /index.php$is_args$args;
@@ -81,15 +81,9 @@ server {
 }
 ```
 
-###上传文件提示413 Request Entity Too Large
-
-```
-修改nginx.conf的http模块：client_max_body_size 10m;
-```
 
 ## CHANGELOG
 瓦尔登的版本记录：[CHANGELOG](https://github.com/meolu/walden/blob/master/CHANGELOG.md)
 
-## 有问题加群
-**QQ：135114826**
+
 
