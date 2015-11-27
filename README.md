@@ -4,7 +4,7 @@
 
 或许是极人性化的一个文档管理框架，最适合部署在内网作为内网文档管理，url即目录层级。markdown+git+web搭配，让你一下子就喜欢上写文档分享。一分钟上手，有兴趣可挖掘隐藏技巧。
 
-[官网主页](http://www.huamanshu.com/walden.html) | [体验demo](http://walden.huamanshu.com/)。
+[官网主页](http://www.huamanshu.com/walden.html) | [体验Demo](http://walden.huamanshu.com/)。
 
 ## 演示
 ![walden](https://raw.github.com/meolu/Walden/master/static/screenshots/walden.gif)
