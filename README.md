@@ -40,19 +40,6 @@ return [
 ];
 ```
 
-## 自定义模板
-
-前端同学可以自己定义模板，在templates下新建一个模板目录，包含预览模板：`markdown-detail-view.php`，编辑模板：`markdown-editor-view.php`，然后修改`Config.php`的`template`为你的模板项目。
-
-最后，当然希望你可以给此项目提个pull request，目前只有一个bootstrap的默认模板：(
-
-
-## to do list
-
-* 文档搜索
-* 文档删除，重命名UI化
-
-
 ## 四、可能会遇到的问题
 
 ### nginx简单配置
@@ -80,6 +67,19 @@ server {
     }
 }
 ```
+
+
+## 自定义模板
+
+前端同学可以自己定义模板，在templates下新建一个模板目录，包含预览模板：`markdown-detail-view.php`，编辑模板：`markdown-editor-view.php`，然后修改`Config.php`的`template`为你的模板项目。
+
+最后，当然希望你可以给此项目提个pull request，目前只有一个bootstrap的默认模板：(
+
+
+## to do list
+
+* 文档搜索
+* 文档删除，重命名UI化
 
 
 ## CHANGELOG
