@@ -27,7 +27,7 @@ class Document extends DirectoryIterator {
 
     public static $MARKDOWN_ROOT;
 
-    public static $EXCLUDES = array('.git', 'upload',);
+    public static $EXCLUDES = array('.git', 'upload', 'README.md',);
 
     public function __construct($path) {
         parent::__construct($path);
@@ -67,6 +67,7 @@ class Document extends DirectoryIterator {
             }
             $list[] = $item;
         }
+        sort($list);
 
         return $list;
     }

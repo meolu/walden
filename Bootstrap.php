@@ -327,6 +327,10 @@ class Bootstrap {
         if (static::getIsAjax()) {
             $this->renderJson(array_values($currentIndex));
         }
+        $mdFile = sprintf('%s/README.md', $route);
+        if (file_exists($mdFile) && is_file($mdFile)) {
+            return $this->actionReadHtml(static::md2HtmlFile($mdFile));
+        }
         // 顶层目录索引
         $TopIndex = Document::listDirectory(static::getProjectByRoute($route), Document::MODE_READ);
         $this->render(static::VIEW_DETAIL,array(
