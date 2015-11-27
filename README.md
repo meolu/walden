@@ -22,11 +22,10 @@
 
 ## 一、安装
 
-零安装、零配置，无数据库，不需要composer，开箱即用。
-
-* 依赖git，php5.3，nginx环境
+零安装、零配置，无数据库，不需要composer，开箱即用。只需要你有一台安装了git命令行，php5.3，nginx环境的linux机器。
 
 ## 二、快速开始
+
 ```php
 vi Config.php
 return [
@@ -40,9 +39,7 @@ return [
 ];
 ```
 
-## 四、可能会遇到的问题
-
-### nginx简单配置
+## 三、nginx简单配置
 
 ```
 server {
