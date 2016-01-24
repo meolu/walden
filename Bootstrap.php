@@ -272,7 +272,7 @@ class Bootstrap {
         $dom =  $parser->text($content);
         $this->render(static::VIEW_DETAIL, array(
             'index'   => $index,
-            'editUrl' => Document::file2Url($mdFile, Document::MODE_WRITE),
+            'editUrl' => str_replace('//', '/', Document::file2Url($mdFile, Document::MODE_WRITE)),
             'title'   => $title,
             'content' => $dom,
         ));
